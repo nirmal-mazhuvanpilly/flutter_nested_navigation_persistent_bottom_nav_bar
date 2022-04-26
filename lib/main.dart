@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_application/providers/home_provider.dart';
+import 'package:flutter_test_application/services/locators.dart';
+import 'package:flutter_test_application/view/home_page.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await setUpLocator();
   runApp(const MyApp());
 }
 
@@ -9,12 +14,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter test application',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<HomeProvider>(
+          create: (context) => HomeProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter test application',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        home: const HomePage(),
       ),
-      home: const Scaffold(),
     );
   }
 }
