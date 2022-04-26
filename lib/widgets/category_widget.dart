@@ -27,7 +27,7 @@ class CategoryWidget extends StatelessWidget {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Padding(
-            padding: const EdgeInsets.only(left: 16, top: 10, bottom: 10),
+            padding: PaddingConsts.padding10,
             child: Row(
               children: categoryInstance.values!
                   .map((e) => Row(
@@ -39,7 +39,7 @@ class CategoryWidget extends StatelessWidget {
                                 height: 69,
                                 padding: PaddingConsts.padding10,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey.shade500,
+                                  color: Colors.grey.shade300,
                                   borderRadius: BorderConts.border100,
                                 ),
                                 child: CachedNetworkImage(

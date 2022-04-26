@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
+import 'package:flutter_test_application/widgets/banner_widget.dart';
 import 'package:flutter_test_application/widgets/category_widget.dart';
+import 'package:flutter_test_application/widgets/search_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,11 +21,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: const [
-          CategoryWidget(),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: ListView(
+          children: const [
+            SearchWidget(),
+            CategoryWidget(),
+            BannerWidget(),
+          ],
+        ),
       ),
     );
   }
