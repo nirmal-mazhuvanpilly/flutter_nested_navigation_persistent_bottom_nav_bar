@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/widgets/banner_widget.dart';
 import 'package:flutter_test_application/widgets/category_widget.dart';
+import 'package:flutter_test_application/widgets/products_widget.dart';
 import 'package:flutter_test_application/widgets/search_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
             SearchWidget(),
             CategoryWidget(),
             BannerWidget(),
+            ProductWidget(),
           ],
         ),
       ),

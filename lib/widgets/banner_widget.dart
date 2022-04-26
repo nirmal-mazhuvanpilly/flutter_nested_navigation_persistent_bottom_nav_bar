@@ -15,7 +15,7 @@ class BannerWidget extends StatelessWidget {
       height: 181,
       child: Consumer<HomeProvider>(
         builder: (context, value, child) {
-          final categoryInstance =
+          final bannerInstance =
               value.homeModel?.homeData?.firstWhere(((element) {
             if (element.type != null) {
               return element.type!.contains("banners");
@@ -23,13 +23,13 @@ class BannerWidget extends StatelessWidget {
               return false;
             }
           }));
-          if (categoryInstance == null) {
+          if (bannerInstance == null) {
             return ConstantWidgets.emptyBox;
           }
           return PageView(
               controller: PageController(viewportFraction: .92),
               padEnds: false,
-              children: categoryInstance.values!
+              children: bannerInstance.values!
                   .map((e) => Container(
                       padding: PaddingConsts.horizontal5,
                       child: ClipRRect(
