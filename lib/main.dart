@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/services/locators.dart';
-import 'package:flutter_test_application/view/home_page.dart';
+import 'package:flutter_test_application/view/main_page.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
-        home: const HomePage(),
+        home: const MainPage(),
       ),
     );
   }

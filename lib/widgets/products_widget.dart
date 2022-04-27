@@ -23,100 +23,105 @@ class ProductWidget extends StatelessWidget {
         return ConstantWidgets.emptyBox;
       }
       return Container(
-        padding: PaddingConsts.padding10,
+        padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
         height: 285,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: productInstance.values?.length ?? 1,
           itemBuilder: (context, index) {
             final productItem = productInstance.values?.elementAt(index);
-            return Container(
-              height: 285,
-              width: 160,
-              decoration: BoxDecoration(
-                borderRadius: BorderConts.border5,
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 12,
-                    child: Container(
-                        color: Colors.red,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 2),
-                        child: Text(
-                          "${productItem?.offer}% OFF",
-                          style: const TextStyle(color: Colors.white),
-                        )),
+            return Row(
+              children: [
+                Container(
+                  height: 285,
+                  width: 160,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderConts.border5,
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(
-                            Icons.favorite,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            height: 92,
-                            width: 92,
-                            child: CachedNetworkImage(
-                                imageUrl: productItem?.image ?? ""),
-                          ),
-                        ),
-                        Container(
-                            color: Colors.amber,
-                            padding: PaddingConsts.padding1,
-                            child: const Icon(Icons.delivery_dining)),
-                        Text(
-                          productItem?.actualPrice ?? "",
-                          style: TextStyle(
-                            color: Colors.grey.shade900,
-                            fontSize: 12,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                        Text(
-                          productItem?.offerPrice ?? "",
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            productItem?.name ?? "",
-                            overflow: TextOverflow.fade,
-                            style: const TextStyle(
-                              fontSize: 14,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 12,
+                        child: Container(
+                            color: Colors.red,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            child: Text(
+                              "${productItem?.offer}% OFF",
+                              style: const TextStyle(color: Colors.white),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(
+                                Icons.favorite,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Align(
+                            Align(
                               alignment: Alignment.center,
                               child: SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Text("ADD"),
+                                height: 92,
+                                width: 92,
+                                child: CachedNetworkImage(
+                                    imageUrl: productItem?.image ?? ""),
+                              ),
+                            ),
+                            Container(
+                                color: Colors.amber,
+                                padding: PaddingConsts.padding1,
+                                child: const Icon(Icons.delivery_dining)),
+                            Text(
+                              productItem?.actualPrice ?? "",
+                              style: TextStyle(
+                                color: Colors.grey.shade900,
+                                fontSize: 12,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                            Text(
+                              productItem?.offerPrice ?? "",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                productItem?.name ?? "",
+                                overflow: TextOverflow.fade,
+                                style: const TextStyle(
+                                  fontSize: 14,
                                 ),
                               ),
-                            ))
-                      ],
-                    ),
+                            ),
+                            Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      onPressed: () {},
+                                      child: const Text("ADD"),
+                                    ),
+                                  ),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                ConstantWidgets.sizedBox10
+              ],
             );
           },
         ),
