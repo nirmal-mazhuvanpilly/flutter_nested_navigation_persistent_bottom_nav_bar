@@ -56,7 +56,7 @@ class CategoryWidget extends StatelessWidget {
                               Text(e.name ?? ""),
                             ],
                           ),
-                          ConstantWidgets.sizedBox16,
+                          ConstantWidgets.sizedBoxWidth16,
                         ],
                       ))
                   .toList(),

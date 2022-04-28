@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_application/models/home_model.dart';
 import 'package:flutter_test_application/utils/navigator_keys.dart';
-import 'package:flutter_test_application/view/sample_page.dart';
+import 'package:flutter_test_application/view/product_view.dart';
 import 'package:flutter_test_application/widgets/home_widget.dart';
 
 class HomeNavigator extends StatelessWidget {
@@ -21,8 +22,11 @@ class HomeNavigator extends StatelessWidget {
                 return const HomeWidget();
               },
             );
-          case "sample":
-            return MaterialPageRoute(builder: (context) => const SamplePage());
+          case "product_view":
+            return MaterialPageRoute(
+                builder: (context) => ProductView(
+                      productItem: settings.arguments as Value,
+                    ));
           default:
             return MaterialPageRoute(
                 builder: (_) => Scaffold(
