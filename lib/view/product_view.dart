@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/models/home_model.dart';
+import 'package:flutter_test_application/utils/navigator_keys.dart';
 
 class ProductView extends StatelessWidget {
   final Value? productItem;
@@ -74,6 +75,12 @@ class ProductView extends StatelessWidget {
                 productItem?.name ?? "",
                 style: const TextStyle(fontSize: 20),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    NavigatorKeys.homeNavigatorKey.currentState
+                        ?.pushNamed("cart_view");
+                  },
+                  child: const Text("Goto Cart")),
             ],
           ),
         ));

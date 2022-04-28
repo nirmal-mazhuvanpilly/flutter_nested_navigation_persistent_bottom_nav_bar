@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
+import 'package:flutter_test_application/utils/navigators.dart/cart_navigator.dart';
 import 'package:flutter_test_application/utils/navigators.dart/home_navigator.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +33,7 @@ class _MainPageState extends State<MainPage> {
         index: _selectedIndex,
         children: const [
           HomeNavigator(),
-          Center(child: Text("Categories")),
+          CartNavigator(),
           Center(child: Text("Offers")),
           Center(child: Text("Cart")),
           Center(child: Text("Account")),
