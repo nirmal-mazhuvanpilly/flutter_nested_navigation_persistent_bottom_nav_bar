@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/border_constants.dart';
 import 'package:flutter_test_application/constants/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
+import 'package:flutter_test_application/models/home_model.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/utils/navigator_keys.dart';
 import 'package:provider/provider.dart';
@@ -13,14 +14,17 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(builder: (context, value, child) {
-      final productInstance = value.homeModel?.homeData?.firstWhere(((element) {
-        if (element.type != null) {
-          return element.type!.contains("products");
-        } else {
-          return false;
-        }
-      }));
-      if (productInstance == null) {
+      final productInstance = value.homeModel?.homeData?.firstWhere(
+        ((element) {
+          if (element.type != null) {
+            return element.type == "products";
+          } else {
+            return false;
+          }
+        }),
+        orElse: () => HomeDatum(),
+      );
+      if (productInstance == null || productInstance.type == null) {
         return ConstantWidgets.emptyBox;
       }
       return Container(

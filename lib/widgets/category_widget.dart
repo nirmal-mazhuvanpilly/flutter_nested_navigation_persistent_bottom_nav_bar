@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/border_constants.dart';
 import 'package:flutter_test_application/constants/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
+import 'package:flutter_test_application/models/home_model.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,15 +14,17 @@ class CategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (context, value, child) {
-        final categoryInstance =
-            value.homeModel?.homeData?.firstWhere(((element) {
-          if (element.type != null) {
-            return element.type!.contains("category");
-          } else {
-            return false;
-          }
-        }));
-        if (categoryInstance == null) {
+        final categoryInstance = value.homeModel?.homeData?.firstWhere(
+          ((element) {
+            if (element.type != null) {
+              return element.type == "category";
+            } else {
+              return false;
+            }
+          }),
+          orElse: () => HomeDatum(),
+        );
+        if (categoryInstance == null || categoryInstance.type == null) {
           return ConstantWidgets.emptyBox;
         }
         return SingleChildScrollView(
