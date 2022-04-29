@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CartView extends StatelessWidget {
-  const CartView({Key? key}) : super(key: key);
+class OfferNavigator extends StatelessWidget {
+  const OfferNavigator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text("Cart"),
+        child: Text("Offers"),
       ),
     );
   }

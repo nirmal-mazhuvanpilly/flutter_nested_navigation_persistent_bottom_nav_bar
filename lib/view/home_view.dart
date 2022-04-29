@@ -11,13 +11,15 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [
-        SearchWidget(),
-        CategoryWidget(),
-        BannerWidget(),
-        ProductWidget(),
-      ],
+    return Scaffold(
+      body: ListView(
+        children: const [
+          SearchWidget(),
+          CategoryWidget(),
+          BannerWidget(),
+          ProductWidget(),
+        ],
+      ),
     );
   }
 }
