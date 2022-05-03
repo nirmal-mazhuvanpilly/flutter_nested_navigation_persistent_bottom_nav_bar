@@ -83,7 +83,9 @@ class ProductWidget extends StatelessWidget {
                                   height: 92,
                                   width: 92,
                                   child: CachedNetworkImage(
-                                      imageUrl: productItem?.image ?? ""),
+                                      imageUrl: productItem?.image ?? "",
+                                      memCacheHeight: 92,
+                                      memCacheWidth: 92),
                                 ),
                               ),
                               (productItem?.isExpress == true)

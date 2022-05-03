@@ -38,6 +38,7 @@ class BannerWidget extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderConts.border10,
                         child: CachedNetworkImage(
+                          memCacheHeight: 181,
                           fit: BoxFit.cover,
                           imageUrl: e.bannerUrl ?? "",
                           placeholder: (context, string) {
