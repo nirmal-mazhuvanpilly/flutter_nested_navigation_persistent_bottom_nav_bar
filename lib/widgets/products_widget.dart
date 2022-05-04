@@ -59,7 +59,7 @@ class ProductWidget extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 2),
                                     child: Text(
-                                      "${productItem?.offer}% OFF",
+                                      "${productItem?.offer ?? ""}% OFF",
                                       style:
                                           const TextStyle(color: Colors.white),
                                     )),
@@ -82,10 +82,13 @@ class ProductWidget extends StatelessWidget {
                                 child: SizedBox(
                                   height: 92,
                                   width: 92,
-                                  child: CachedNetworkImage(
-                                      imageUrl: productItem?.image ?? "",
-                                      memCacheHeight: 92,
-                                      memCacheWidth: 92),
+                                  child: (productItem?.image == null ||
+                                          productItem!.image!.isEmpty)
+                                      ? ConstantWidgets.emptyBox
+                                      : CachedNetworkImage(
+                                          imageUrl: productItem.image ?? "",
+                                          memCacheHeight: 92,
+                                          memCacheWidth: 92),
                                 ),
                               ),
                               (productItem?.isExpress == true)

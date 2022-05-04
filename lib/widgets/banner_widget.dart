@@ -37,19 +37,29 @@ class BannerWidget extends StatelessWidget {
                       padding: PaddingConsts.horizontal5,
                       child: ClipRRect(
                         borderRadius: BorderConts.border10,
-                        child: CachedNetworkImage(
-                          memCacheHeight: 181,
-                          fit: BoxFit.cover,
-                          imageUrl: e.bannerUrl ?? "",
-                          placeholder: (context, string) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius: BorderConts.border10,
+                        child: (e.bannerUrl == null || e.bannerUrl!.isEmpty)
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderConts.border10,
+                                ),
+                                child: const Center(
+                                  child: Icon(Icons.image),
+                                ),
+                              )
+                            : CachedNetworkImage(
+                                memCacheHeight: 181,
+                                fit: BoxFit.cover,
+                                imageUrl: e.bannerUrl ?? "",
+                                placeholder: (context, string) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderConts.border10,
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
                       )))
                   .toList()),
         );
