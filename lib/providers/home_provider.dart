@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/models/home_model.dart';
-import 'package:flutter_test_application/services/api_services.dart';
+import 'package:flutter_test_application/services/base_services.dart';
 import 'package:flutter_test_application/services/locators.dart';
 
 class HomeProvider extends ChangeNotifier {
-  final apiServices = getIt<ApiServices>();
+  final apiServices = getIt<BaseServices>();
 
   HomeModel? _homeModel;
 

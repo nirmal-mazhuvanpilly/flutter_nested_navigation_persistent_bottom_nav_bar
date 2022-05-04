@@ -5,6 +5,7 @@ import 'package:flutter_test_application/constants/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/models/home_model.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
+import 'package:flutter_test_application/services/app_data.dart';
 import 'package:provider/provider.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -46,7 +47,10 @@ class CategoryWidget extends StatelessWidget {
                                   borderRadius: BorderConts.border100,
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl: e.imageUrl ?? "",
+                                  imageUrl: (e.imageUrl == null ||
+                                          e.imageUrl!.isEmpty)
+                                      ? AppData.invalidImage
+                                      : e.imageUrl ?? "",
                                   placeholder: (context, value) {
                                     return Icon(
                                       Icons.image,
