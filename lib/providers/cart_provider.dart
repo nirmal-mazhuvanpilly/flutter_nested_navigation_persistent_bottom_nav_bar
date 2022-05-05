@@ -6,11 +6,11 @@ import 'package:flutter_test_application/utils/db_helper.dart';
 class CartProvider extends ChangeNotifier {
   final db = getIt<DbHelper>();
 
-  List<Value>? _cartItems;
+  List<CartItem>? _cartItems;
 
-  List<Value>? get cartItems => _cartItems;
+  List<CartItem>? get cartItems => _cartItems;
 
-  set cartItems(List<Value>? items) {
+  set cartItems(List<CartItem>? items) {
     _cartItems = items;
     notifyListeners();
   }

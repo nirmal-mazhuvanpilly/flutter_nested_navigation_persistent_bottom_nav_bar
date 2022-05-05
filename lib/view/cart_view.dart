@@ -57,9 +57,11 @@ class _CartViewState extends State<CartView> {
                           height: 50,
                           child: CachedNetworkImage(
                               fit: BoxFit.cover,
-                              imageUrl:
-                                  value.cartItems?.elementAt(index).image ??
-                                      ""),
+                              imageUrl: value.cartItems
+                                      ?.elementAt(index)
+                                      .cartItem
+                                      ?.image ??
+                                  ""),
                         ),
                       ),
                     ),
@@ -71,13 +73,18 @@ class _CartViewState extends State<CartView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            value.cartItems?.elementAt(index).name ?? "",
+                            value.cartItems?.elementAt(index).cartItem?.name ??
+                                "",
                             style: TextStyle(
                                 color: Colors.green.shade900,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            value.cartItems?.elementAt(index).actualPrice ?? "",
+                            value.cartItems
+                                    ?.elementAt(index)
+                                    .cartItem
+                                    ?.actualPrice ??
+                                "",
                             style: TextStyle(
                               color: Colors.grey.shade600,
                               fontWeight: FontWeight.bold,
@@ -85,7 +92,11 @@ class _CartViewState extends State<CartView> {
                             ),
                           ),
                           Text(
-                            value.cartItems?.elementAt(index).offerPrice ?? "",
+                            value.cartItems
+                                    ?.elementAt(index)
+                                    .cartItem
+                                    ?.offerPrice ??
+                                "",
                             style: TextStyle(
                                 color: Colors.grey.shade800,
                                 fontWeight: FontWeight.bold),
@@ -97,7 +108,8 @@ class _CartViewState extends State<CartView> {
                       flex: 2,
                       child: IconButton(
                           onPressed: () {
-                            value.deleteFromCart(id: index);
+                            value.deleteFromCart(
+                                id: value.cartItems?.elementAt(index).id);
                           },
                           icon: Icon(
                             Icons.delete,

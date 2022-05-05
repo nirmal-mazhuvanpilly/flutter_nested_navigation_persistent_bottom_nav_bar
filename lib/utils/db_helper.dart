@@ -50,13 +50,13 @@ class DbHelper {
     }
   }
 
-  Future<List<Value>?> getCartItems() async {
+  Future<List<CartItem>?> getCartItems() async {
     Database? db = await database;
 
     final List<Map<String, dynamic>>? maps = await db?.query(_tableName);
 
     if (maps?.length != null || maps!.isNotEmpty) {
-      return maps?.map((e) => Value.fromJson(json.decode(e["cart"]))).toList();
+      return maps?.map((e) => CartItem.fromJson(e)).toList();
     } else {
       return null;
     }
@@ -64,7 +64,7 @@ class DbHelper {
 
   Future<void> deleteFromCart({int? id}) async {
     Database? db = await database;
-    await db?.rawDelete("DELETE FROM $_tableName WHERE id = ${id! + 1}");
+    await db?.rawDelete("DELETE FROM $_tableName WHERE id = $id");
   }
 
   Future<void> clearDatabase() async {

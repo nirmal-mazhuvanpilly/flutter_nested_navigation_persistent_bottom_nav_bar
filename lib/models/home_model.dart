@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class HomeModel {
   HomeModel({
     this.status,
@@ -89,4 +91,16 @@ class Value {
         "offer": offer,
         "is_express": isExpress,
       };
+}
+
+class CartItem {
+  int? id;
+  Value? cartItem;
+
+  CartItem({this.id, this.cartItem});
+
+  factory CartItem.fromJson(Map<String, dynamic> json) => CartItem(
+        id: json["id"],
+        cartItem: Value.fromJson(jsonDecode(json["cart"])),
+      );
 }
