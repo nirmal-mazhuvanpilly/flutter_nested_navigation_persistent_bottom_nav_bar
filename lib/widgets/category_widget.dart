@@ -26,7 +26,7 @@ class CategoryWidget extends StatelessWidget {
           orElse: () => HomeDatum(),
         );
         if (categoryInstance == null || categoryInstance.type == null) {
-          return ConstantWidgets.emptyBox;
+          return ConstantWidgets.cateogoryShimmer;
         }
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,

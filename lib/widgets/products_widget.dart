@@ -25,7 +25,7 @@ class ProductWidget extends StatelessWidget {
         orElse: () => HomeDatum(),
       );
       if (productInstance == null || productInstance.type == null) {
-        return ConstantWidgets.emptyBox;
+        return ConstantWidgets.productShimmer;
       }
       return Container(
         padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),

@@ -25,7 +25,7 @@ class BannerWidget extends StatelessWidget {
           orElse: () => HomeDatum(),
         );
         if (bannerInstance == null || bannerInstance.type == null) {
-          return ConstantWidgets.emptyBox;
+          return ConstantWidgets.bannerShimmer;
         }
         return SizedBox(
           height: 181,
