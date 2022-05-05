@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_application/providers/cart_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/services/locators.dart';
 import 'package:flutter_test_application/view/cupertino_main_page.dart';
@@ -18,6 +19,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<HomeProvider>(
           create: (context) => HomeProvider(),
+        ),
+        ChangeNotifierProvider<CartProvider>(
+          create: (context) => CartProvider(),
         ),
       ],
       child: MaterialApp(

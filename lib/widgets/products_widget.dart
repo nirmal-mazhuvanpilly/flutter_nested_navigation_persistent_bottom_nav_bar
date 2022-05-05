@@ -4,6 +4,7 @@ import 'package:flutter_test_application/constants/border_constants.dart';
 import 'package:flutter_test_application/constants/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/models/home_model.dart';
+import 'package:flutter_test_application/providers/cart_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/utils/navigator_keys.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ class ProductWidget extends StatelessWidget {
       }
       return Container(
         padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
-        height: 285,
+        height: 300,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: productInstance.values?.length ?? 1,
@@ -43,7 +44,7 @@ class ProductWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    height: 285,
+                    height: 300,
                     width: 160,
                     decoration: BoxDecoration(
                       borderRadius: BorderConts.border5,
@@ -93,10 +94,15 @@ class ProductWidget extends StatelessWidget {
                               ),
                               (productItem?.isExpress == true)
                                   ? Container(
+                                      height: 20,
+                                      width: 20,
                                       color: Colors.amber,
                                       padding: PaddingConsts.padding1,
-                                      child: const Icon(Icons.delivery_dining))
-                                  : ConstantWidgets.emptyBox,
+                                      child: const Icon(
+                                        Icons.delivery_dining,
+                                        size: 15,
+                                      ))
+                                  : const SizedBox(height: 20, width: 10),
                               Text(
                                 productItem?.actualPrice ?? "",
                                 style: TextStyle(
@@ -113,7 +119,7 @@ class ProductWidget extends StatelessWidget {
                                 ),
                               ),
                               Expanded(
-                                flex: 2,
+                                flex: 3,
                                 child: Text(
                                   productItem?.name ?? "",
                                   overflow: TextOverflow.fade,
@@ -123,13 +129,17 @@ class ProductWidget extends StatelessWidget {
                                 ),
                               ),
                               Expanded(
-                                  flex: 1,
+                                  flex: 2,
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: SizedBox(
                                       width: double.infinity,
                                       child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          context
+                                              .read<CartProvider>()
+                                              .addItemToCart(item: productItem);
+                                        },
                                         child: const Text("ADD"),
                                       ),
                                     ),
