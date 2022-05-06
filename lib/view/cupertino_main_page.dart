@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test_application/constants/constant_widgets.dart';
+import 'package:flutter_test_application/providers/cart_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/utils/cupertino_navigators/account_navigator.dart';
 import 'package:flutter_test_application/utils/cupertino_navigators/cart_navigator.dart';
@@ -53,15 +55,43 @@ class _CupertinoMainPageState extends State<CupertinoMainPage> {
           backgroundColor: Colors.grey.shade300,
           border: Border.all(color: Colors.grey.shade300),
           iconSize: 25.0,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(
+          items: <BottomNavigationBarItem>[
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.home), label: "Home"),
+            const BottomNavigationBarItem(
                 icon: Icon(Icons.apps), label: "Categories"),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
                 icon: Icon(Icons.local_offer), label: "Offers"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_shopping_cart), label: "Cart"),
-            BottomNavigationBarItem(
+                icon: Stack(
+                  children: [
+                    const Icon(Icons.add_shopping_cart),
+                    Consumer<CartProvider>(
+                      builder: (context, value, child) => (value
+                                  .cartItems?.isEmpty ??
+                              true)
+                          ? ConstantWidgets.emptyBox
+                          : Positioned(
+                              right: 0,
+                              child: Container(
+                                height: 12,
+                                width: 12,
+                                padding: const EdgeInsets.all(2),
+                                decoration: const BoxDecoration(
+                                    color: Colors.red, shape: BoxShape.circle),
+                                child: FittedBox(
+                                  child: Text(
+                                    value.cartItems?.length.toString() ?? "",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
+                label: "Cart"),
+            const BottomNavigationBarItem(
                 icon: Icon(Icons.account_circle), label: "Account"),
           ],
         ),
