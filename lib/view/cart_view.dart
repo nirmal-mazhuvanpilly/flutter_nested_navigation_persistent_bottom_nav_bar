@@ -27,7 +27,7 @@ class _CartViewState extends State<CartView> {
         title: const Text("Cart"),
         actions: [
           IconButton(
-            icon: const Icon(Icons.clear_all),
+            icon: const Icon(Icons.delete),
             onPressed: () {
               context.read<CartProvider>().clearCart();
             },
@@ -105,16 +105,37 @@ class _CartViewState extends State<CartView> {
                       ),
                     ),
                     Expanded(
-                      flex: 2,
-                      child: IconButton(
-                          onPressed: () {
-                            value.deleteFromCart(
-                                id: value.cartItems?.elementAt(index).id);
-                          },
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.green.shade800,
-                          )),
+                      flex: 3,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding: PaddingConsts.padding5,
+                              decoration: const BoxDecoration(
+                                  color: Colors.green, shape: BoxShape.circle),
+                              child: Center(
+                                child: Text(
+                                  value.cartItems
+                                          ?.elementAt(index)
+                                          .itemNumber
+                                          .toString() ??
+                                      "",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                value.deleteFromCart(
+                                    id: value.cartItems?.elementAt(index).id);
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.green.shade800,
+                              )),
+                        ],
+                      ),
                     ),
                   ],
                 ),

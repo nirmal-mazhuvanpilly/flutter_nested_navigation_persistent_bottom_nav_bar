@@ -14,6 +14,7 @@ class DbHelper {
 
   static const _id = "id";
   static const _cartItem = "cart";
+  static const _itemNumber = "item_number";
 
   Database? _database;
 
@@ -32,21 +33,40 @@ class DbHelper {
 
   Future _onCreate(Database db, int version) async {
     const create =
-        "CREATE TABLE $_tableName($_id INTEGER PRIMARY KEY, $_cartItem TEXT NOT NULL)";
+        "CREATE TABLE $_tableName($_id INTEGER PRIMARY KEY, $_cartItem TEXT NOT NULL,$_itemNumber INTEGER)";
     await db.execute(create);
   }
 
   Future<void> insertIntoCart({Value? item}) async {
     Database? db = await database;
 
+    final List<CartItem>? items = await getCartItems();
+
+    final CartItem? cartItem = items?.firstWhere(
+        (element) => (element.cartItem?.id == item?.id),
+        orElse: () => CartItem());
+
     if (item != null) {
       String dataAsString = json.encode(item.toJson());
-      Map<String, dynamic> data = {"cart": dataAsString};
-      await db?.insert(
-        _tableName,
-        data,
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
+      if (cartItem?.cartItem == null) {
+        Map<String, dynamic> data = {"cart": dataAsString, "item_number": 1};
+        await db?.insert(
+          _tableName,
+          data,
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      } else {
+        int? count = cartItem?.itemNumber;
+        if (count != null) {
+          count = count + 1;
+          Map<String, dynamic> data = {
+            "cart": dataAsString,
+            "item_number": count
+          };
+          await db?.update(_tableName, data,
+              where: "id = ?", whereArgs: [cartItem?.id]);
+        }
+      }
     }
   }
 

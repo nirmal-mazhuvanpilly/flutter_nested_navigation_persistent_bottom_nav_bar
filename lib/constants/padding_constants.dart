@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class PaddingConsts {
   static const padding1 = EdgeInsets.all(1.0);
+  static const padding5 = EdgeInsets.all(5.0);
   static const padding10 = EdgeInsets.all(10.0);
   static const padding20 = EdgeInsets.all(20.0);
 
