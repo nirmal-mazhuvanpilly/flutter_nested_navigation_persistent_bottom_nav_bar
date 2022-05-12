@@ -77,8 +77,7 @@ class ProductView extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {
-                    NavigatorKeys.homeNavigatorKey.currentState
-                        ?.pushNamed("cart_view");
+                    NavigatorKeys.cupertinoTabController.index = 3;
                   },
                   child: const Text("Goto Cart")),
             ],

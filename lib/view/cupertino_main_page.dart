@@ -19,8 +19,6 @@ class CupertinoMainPage extends StatefulWidget {
 }
 
 class _CupertinoMainPageState extends State<CupertinoMainPage> {
-  final CupertinoTabController _cupertinoTabController =
-      CupertinoTabController();
 
   @override
   void initState() {
@@ -40,8 +38,8 @@ class _CupertinoMainPageState extends State<CupertinoMainPage> {
   ];
 
   Future<bool> _onWillPop() async {
-    if (_listOfKeys[_cupertinoTabController.index].currentState != null) {
-      return !await _listOfKeys[_cupertinoTabController.index]
+    if (_listOfKeys[NavigatorKeys.cupertinoTabController.index].currentState != null) {
+      return !await _listOfKeys[NavigatorKeys.cupertinoTabController.index]
           .currentState!
           .maybePop();
     }
@@ -53,7 +51,7 @@ class _CupertinoMainPageState extends State<CupertinoMainPage> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: CupertinoTabScaffold(
-        controller: _cupertinoTabController,
+        controller: NavigatorKeys.cupertinoTabController,
         tabBar: CupertinoTabBar(
           backgroundColor: Colors.grey.shade300,
           border: Border.all(color: Colors.grey.shade300),
