@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_application/providers/cart_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/services/locators.dart';
-import 'package:flutter_test_application/view/cupertino_main_page.dart';
+import 'package:flutter_test_application/utils/common_routes.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
-        home: const CupertinoMainPage(),
+        initialRoute: "splash_view",
+        onGenerateRoute: CommonRoute.generatedRoutes,
       ),
     );
   }
