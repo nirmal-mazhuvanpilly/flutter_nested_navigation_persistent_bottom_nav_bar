@@ -9,7 +9,7 @@ class HomeNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoTabView(
-      navigatorKey: NavigatorKeys.homeNavigatorKey,
+      navigatorKey: NavigatorKeysNControllers.homeNavigatorKey,
       onGenerateRoute: CommonRoute.generatedRoutes,
       builder: (BuildContext context) {
         return const HomeView();

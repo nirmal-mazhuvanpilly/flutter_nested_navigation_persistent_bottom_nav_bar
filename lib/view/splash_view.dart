@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_application/constants/text_style_constants.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -38,11 +39,7 @@ class _SplashViewState extends State<SplashView> {
         child: const Center(
           child: Text(
             "MACHINE TEST",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyleConsts.bold30White,
           ),
         ),
       ),

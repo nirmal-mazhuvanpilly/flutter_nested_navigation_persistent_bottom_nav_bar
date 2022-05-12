@@ -9,7 +9,7 @@ class CartNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoTabView(
-      navigatorKey: NavigatorKeys.cartNavigatorKey,
+      navigatorKey: NavigatorKeysNControllers.cartNavigatorKey,
       onGenerateRoute: CommonRoute.generatedRoutes,
       builder: (BuildContext context) {
         return const CartView();

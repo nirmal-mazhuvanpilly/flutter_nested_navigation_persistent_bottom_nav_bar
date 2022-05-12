@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test_application/constants/constant_widgets.dart';
+import 'package:flutter_test_application/constants/text_style_constants.dart';
+import 'package:flutter_test_application/widgets/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/models/home_model.dart';
 import 'package:flutter_test_application/utils/navigator_keys.dart';
@@ -42,7 +43,7 @@ class ProductView extends StatelessWidget {
                                       horizontal: 5, vertical: 2),
                                   child: Text(
                                     "${productItem?.offer}% OFF",
-                                    style: const TextStyle(color: Colors.white),
+                                    style: TextStyleConsts.white,
                                   )),
                             )
                           : ConstantWidgets.emptyBox,
@@ -54,30 +55,23 @@ class ProductView extends StatelessWidget {
                 children: [
                   Text(
                     productItem?.actualPrice ?? "",
-                    style: TextStyle(
-                      color: Colors.grey.shade900,
-                      fontSize: 12,
-                      decoration: TextDecoration.lineThrough,
-                    ),
+                    style: TextStyleConsts.strike12GreyShade900,
                   ),
                   ConstantWidgets.sizedBoxWidth10,
                   Text(
                     productItem?.offerPrice ?? "",
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyleConsts.bold15,
                   ),
                 ],
               ),
               ConstantWidgets.sizedBoxHeight10,
               Text(
                 productItem?.name ?? "",
-                style: const TextStyle(fontSize: 20),
+                style: TextStyleConsts.normal20,
               ),
               ElevatedButton(
                   onPressed: () {
-                    NavigatorKeys.cupertinoTabController.index = 3;
+                    NavigatorKeysNControllers.cupertinoTabController.index = 3;
                   },
                   child: const Text("Goto Cart")),
             ],

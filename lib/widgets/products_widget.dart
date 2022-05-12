@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/border_constants.dart';
-import 'package:flutter_test_application/constants/constant_widgets.dart';
+import 'package:flutter_test_application/constants/text_style_constants.dart';
+import 'package:flutter_test_application/widgets/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/models/home_model.dart';
 import 'package:flutter_test_application/providers/cart_provider.dart';
@@ -40,7 +41,7 @@ class ProductWidget extends StatelessWidget {
             final productItem = productInstance.values?.elementAt(index);
             return GestureDetector(
               onTap: () {
-                NavigatorKeys.homeNavigatorKey.currentState
+                NavigatorKeysNControllers.homeNavigatorKey.currentState
                     ?.pushNamed("product_view", arguments: productItem);
               },
               child: Row(
@@ -63,13 +64,12 @@ class ProductWidget extends StatelessWidget {
                                         horizontal: 5, vertical: 2),
                                     child: Text(
                                       "${productItem?.offer ?? ""}% OFF",
-                                      style:
-                                          const TextStyle(color: Colors.white),
+                                      style: TextStyleConsts.white,
                                     )),
                               )
                             : ConstantWidgets.emptyBox,
                         Padding(
-                          padding: const EdgeInsets.all(12.0),
+                          padding: PaddingConsts.padding12,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -107,18 +107,11 @@ class ProductWidget extends StatelessWidget {
                                   : const SizedBox(height: 20, width: 10),
                               Text(
                                 productItem?.actualPrice ?? "",
-                                style: TextStyle(
-                                  color: Colors.grey.shade900,
-                                  fontSize: 12,
-                                  decoration: TextDecoration.lineThrough,
-                                ),
+                                style: TextStyleConsts.strike12GreyShade900,
                               ),
                               Text(
                                 productItem?.offerPrice ?? "",
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: TextStyleConsts.bold15,
                               ),
                               Expanded(
                                 flex: 3,
@@ -145,15 +138,14 @@ class ProductWidget extends StatelessWidget {
                                         decoration: BoxDecoration(
                                             color: Colors.grey.shade300,
                                             shape: BoxShape.circle),
-                                        child: const Icon(Icons.remove, size: 15)),
+                                        child:
+                                            const Icon(Icons.remove, size: 15)),
                                   ),
                                   ValueListenableBuilder<int>(
                                     valueListenable: _count,
                                     builder: (context, value, child) => Text(
                                       value.toString(),
-                                      style: TextStyle(
-                                          color: Colors.green.shade900,
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyleConsts.boldGreenShade900,
                                     ),
                                   ),
                                   GestureDetector(
@@ -165,8 +157,7 @@ class ProductWidget extends StatelessWidget {
                                         decoration: BoxDecoration(
                                             color: Colors.grey.shade300,
                                             shape: BoxShape.circle),
-                                        child:
-                                            const Icon(Icons.add, size: 15)),
+                                        child: const Icon(Icons.add, size: 15)),
                                   ),
                                 ],
                               ),

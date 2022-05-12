@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class NavigatorKeys {
+class NavigatorKeysNControllers {
   static final homeNavigatorKey = GlobalKey<NavigatorState>();
   static final cateogoryNavigatorKey = GlobalKey<NavigatorState>();
   static final offerNavigatorKey = GlobalKey<NavigatorState>();

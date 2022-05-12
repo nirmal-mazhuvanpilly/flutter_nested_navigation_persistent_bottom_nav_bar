@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/border_constants.dart';
-import 'package:flutter_test_application/constants/constant_widgets.dart';
+import 'package:flutter_test_application/constants/text_style_constants.dart';
+import 'package:flutter_test_application/widgets/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class _CartViewState extends State<CartView> {
                 margin: PaddingConsts.padding10,
                 decoration: BoxDecoration(
                     color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(5)),
+                    borderRadius: BorderConts.border5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -75,9 +76,7 @@ class _CartViewState extends State<CartView> {
                           Text(
                             value.cartItems?.elementAt(index).cartItem?.name ??
                                 "",
-                            style: TextStyle(
-                                color: Colors.green.shade900,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyleConsts.boldGreenShade900,
                           ),
                           Text(
                             value.cartItems
@@ -85,11 +84,7 @@ class _CartViewState extends State<CartView> {
                                     .cartItem
                                     ?.actualPrice ??
                                 "",
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.lineThrough,
-                            ),
+                            style: TextStyleConsts.boldStrikeGreyShade600,
                           ),
                           Text(
                             value.cartItems
@@ -97,9 +92,7 @@ class _CartViewState extends State<CartView> {
                                     .cartItem
                                     ?.offerPrice ??
                                 "",
-                            style: TextStyle(
-                                color: Colors.grey.shade800,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyleConsts.boldStrikeGreyShade800,
                           ),
                         ],
                       ),
@@ -134,9 +127,7 @@ class _CartViewState extends State<CartView> {
                                           .itemNumber
                                           .toString() ??
                                       "",
-                                  style: TextStyle(
-                                      color: Colors.green.shade900,
-                                      fontWeight: FontWeight.bold),
+                                  style: TextStyleConsts.boldGreenShade900,
                                 ),
                                 GestureDetector(
                                   onTap: () {

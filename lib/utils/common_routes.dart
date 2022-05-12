@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/models/home_model.dart';
 import 'package:flutter_test_application/view/cart_view.dart';
-import 'package:flutter_test_application/view/cupertino_main_page.dart';
+import 'package:flutter_test_application/view/cupertino_main_page_view.dart';
 import 'package:flutter_test_application/view/home_view.dart';
 import 'package:flutter_test_application/view/product_view.dart';
 import 'package:flutter_test_application/view/splash_view.dart';
@@ -12,7 +12,7 @@ class CommonRoute {
       case "cupertino_main_page":
         return MaterialPageRoute(
           builder: (context) {
-            return const CupertinoMainPage();
+            return const CupertinoMainPageView();
           },
         );
       case "home_view":
