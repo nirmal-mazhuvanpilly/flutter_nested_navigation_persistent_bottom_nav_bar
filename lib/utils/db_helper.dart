@@ -37,7 +37,12 @@ class DbHelper {
     await db.execute(create);
   }
 
-  Future<void> addOrRemoveFromCart({Value? item, bool increment = true}) async {
+  Future<void> addOrRemoveFromCart({
+    Value? item,
+    bool increment = true,
+    int itemCount = 1,
+    bool homePage = false,
+  }) async {
     Database? db = await database;
 
     final List<CartItem>? items = await getCartItems();
@@ -49,7 +54,10 @@ class DbHelper {
     if (item != null) {
       String dataAsString = json.encode(item.toJson());
       if (cartItem?.cartItem == null) {
-        Map<String, dynamic> data = {"cart": dataAsString, "item_number": 1};
+        Map<String, dynamic> data = {
+          "cart": dataAsString,
+          "item_number": itemCount
+        };
         await db?.insert(
           _tableName,
           data,
@@ -58,8 +66,8 @@ class DbHelper {
       } else {
         int? count = cartItem?.itemNumber;
         if (count != null) {
-          if (increment) {
-            count = count + 1;
+          if (homePage) {
+            count = count + itemCount;
             Map<String, dynamic> data = {
               "cart": dataAsString,
               "item_number": count
@@ -67,16 +75,26 @@ class DbHelper {
             await db?.update(_tableName, data,
                 where: "id = ?", whereArgs: [cartItem?.id]);
           } else {
-            count = count - 1;
-            if (count <= 0) {
-              deleteFromCart(id: cartItem?.id);
-            } else {
+            if (increment) {
+              count = count + 1;
               Map<String, dynamic> data = {
                 "cart": dataAsString,
                 "item_number": count
               };
               await db?.update(_tableName, data,
                   where: "id = ?", whereArgs: [cartItem?.id]);
+            } else {
+              count = count - 1;
+              if (count <= 0) {
+                deleteFromCart(id: cartItem?.id);
+              } else {
+                Map<String, dynamic> data = {
+                  "cart": dataAsString,
+                  "item_number": count
+                };
+                await db?.update(_tableName, data,
+                    where: "id = ?", whereArgs: [cartItem?.id]);
+              }
             }
           }
         }

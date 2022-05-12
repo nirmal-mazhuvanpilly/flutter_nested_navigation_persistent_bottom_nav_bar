@@ -15,8 +15,17 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addOrRemoveFromCart({Value? item, bool inc = true}) async {
-    await db.addOrRemoveFromCart(item: item, increment: inc);
+  Future<void> addOrRemoveFromCart(
+      {Value? item,
+      bool inc = true,
+      int count = 1,
+      bool homePage = false}) async {
+    await db.addOrRemoveFromCart(
+      item: item,
+      increment: inc,
+      itemCount: count,
+      homePage: homePage,
+    );
     await getcartItems();
     notifyListeners();
   }
