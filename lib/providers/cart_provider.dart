@@ -15,8 +15,8 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addItemToCart({Value? item}) async {
-    await db.insertIntoCart(item: item);
+  Future<void> addItemToCart({Value? item, bool inc = true}) async {
+    await db.insertIntoCart(item: item, increment: inc);
     await getcartItems();
     notifyListeners();
   }

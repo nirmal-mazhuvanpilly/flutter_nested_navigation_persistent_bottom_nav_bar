@@ -25,7 +25,10 @@ class _CupertinoMainPageState extends State<CupertinoMainPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<HomeProvider>().getHomeData());
+    Future.microtask(() {
+      context.read<HomeProvider>().getHomeData();
+      context.read<CartProvider>().getcartItems();
+    } );
   }
 
   final _listOfKeys = [

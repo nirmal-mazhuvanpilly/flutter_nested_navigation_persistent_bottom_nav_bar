@@ -37,7 +37,7 @@ class DbHelper {
     await db.execute(create);
   }
 
-  Future<void> insertIntoCart({Value? item}) async {
+  Future<void> insertIntoCart({Value? item, bool increment = true}) async {
     Database? db = await database;
 
     final List<CartItem>? items = await getCartItems();
@@ -58,13 +58,27 @@ class DbHelper {
       } else {
         int? count = cartItem?.itemNumber;
         if (count != null) {
-          count = count + 1;
-          Map<String, dynamic> data = {
-            "cart": dataAsString,
-            "item_number": count
-          };
-          await db?.update(_tableName, data,
-              where: "id = ?", whereArgs: [cartItem?.id]);
+          if (increment) {
+            count = count + 1;
+            Map<String, dynamic> data = {
+              "cart": dataAsString,
+              "item_number": count
+            };
+            await db?.update(_tableName, data,
+                where: "id = ?", whereArgs: [cartItem?.id]);
+          } else {
+            count = count - 1;
+            if (count <= 0) {
+              deleteFromCart(id: cartItem?.id);
+            } else {
+              Map<String, dynamic> data = {
+                "cart": dataAsString,
+                "item_number": count
+              };
+              await db?.update(_tableName, data,
+                  where: "id = ?", whereArgs: [cartItem?.id]);
+            }
+          }
         }
       }
     }

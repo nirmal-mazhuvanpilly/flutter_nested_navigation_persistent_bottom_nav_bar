@@ -105,35 +105,70 @@ class _CartViewState extends State<CartView> {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 4,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: Container(
-                              padding: PaddingConsts.padding5,
-                              decoration: const BoxDecoration(
-                                  color: Colors.green, shape: BoxShape.circle),
-                              child: Center(
-                                child: Text(
+                            flex: 5,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    value.addItemToCart(
+                                        item: value.cartItems
+                                            ?.elementAt(index)
+                                            .cartItem);
+                                  },
+                                  child: Container(
+                                      padding: PaddingConsts.padding5,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.shade400,
+                                          shape: BoxShape.circle),
+                                      child: const Icon(Icons.add, size: 15)),
+                                ),
+                                Text(
                                   value.cartItems
                                           ?.elementAt(index)
                                           .itemNumber
                                           .toString() ??
                                       "",
-                                  style: const TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                      color: Colors.green.shade900,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              ),
+                                GestureDetector(
+                                  onTap: () {
+                                    value.addItemToCart(
+                                        item: value.cartItems
+                                            ?.elementAt(index)
+                                            .cartItem,
+                                        inc: false);
+                                  },
+                                  child: Container(
+                                      padding: PaddingConsts.padding5,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.shade400,
+                                          shape: BoxShape.circle),
+                                      child:
+                                          const Icon(Icons.remove, size: 15)),
+                                ),
+                              ],
                             ),
                           ),
-                          IconButton(
-                              onPressed: () {
-                                value.deleteFromCart(
-                                    id: value.cartItems?.elementAt(index).id);
-                              },
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.green.shade800,
-                              )),
+                          Expanded(
+                            flex: 3,
+                            child: IconButton(
+                                onPressed: () {
+                                  value.deleteFromCart(
+                                      id: value.cartItems?.elementAt(index).id);
+                                },
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.green.shade800,
+                                )),
+                          ),
                         ],
                       ),
                     ),
