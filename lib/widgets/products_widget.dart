@@ -138,7 +138,7 @@ class ProductWidget extends StatelessWidget {
                                         onPressed: () {
                                           context
                                               .read<CartProvider>()
-                                              .addItemToCart(item: productItem);
+                                              .addOrRemoveFromCart(item: productItem);
                                         },
                                         child: const Text("ADD"),
                                       ),

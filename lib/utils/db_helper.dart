@@ -37,7 +37,7 @@ class DbHelper {
     await db.execute(create);
   }
 
-  Future<void> insertIntoCart({Value? item, bool increment = true}) async {
+  Future<void> addOrRemoveFromCart({Value? item, bool increment = true}) async {
     Database? db = await database;
 
     final List<CartItem>? items = await getCartItems();

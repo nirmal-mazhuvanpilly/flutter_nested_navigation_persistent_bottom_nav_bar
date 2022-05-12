@@ -116,7 +116,7 @@ class _CartViewState extends State<CartView> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    value.addItemToCart(
+                                    value.addOrRemoveFromCart(
                                         item: value.cartItems
                                             ?.elementAt(index)
                                             .cartItem);
@@ -140,7 +140,7 @@ class _CartViewState extends State<CartView> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    value.addItemToCart(
+                                    value.addOrRemoveFromCart(
                                         item: value.cartItems
                                             ?.elementAt(index)
                                             .cartItem,
