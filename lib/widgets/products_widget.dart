@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/border_constants.dart';
 import 'package:flutter_test_application/constants/text_style_constants.dart';
+import 'package:flutter_test_application/widgets/clippers/flag_banner.dart';
 import 'package:flutter_test_application/widgets/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/models/home_model.dart';
@@ -58,14 +59,17 @@ class ProductWidget extends StatelessWidget {
                         (productItem?.offer != 0)
                             ? Positioned(
                                 top: 12,
-                                child: Container(
-                                    color: Colors.red,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 2),
-                                    child: Text(
-                                      "${productItem?.offer ?? ""}% OFF",
-                                      style: TextStyleConsts.white,
-                                    )),
+                                child: ClipPath(
+                                  clipper: const FlagBanner(),
+                                  child: Container(
+                                      color: Colors.red,
+                                      padding: const EdgeInsets.fromLTRB(
+                                          5.0, 2, 15.0, 2),
+                                      child: Text(
+                                        "${productItem?.offer ?? ""}% OFF",
+                                        style: TextStyleConsts.white,
+                                      )),
+                                ),
                               )
                             : ConstantWidgets.emptyBox,
                         Padding(
