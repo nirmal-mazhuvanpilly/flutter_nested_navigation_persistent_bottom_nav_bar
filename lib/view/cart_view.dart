@@ -51,19 +51,19 @@ class _CartViewState extends State<CartView> {
                   children: [
                     Expanded(
                       flex: 0,
-                      child: ClipRRect(
-                        borderRadius: BorderConts.border100,
-                        child: SizedBox(
-                          width: 50,
-                          height: 50,
-                          child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: value.cartItems
-                                      ?.elementAt(index)
-                                      .cartItem
-                                      ?.image ??
-                                  ""),
-                        ),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        clipBehavior: Clip.antiAlias,
+                        decoration:
+                            BoxDecoration(borderRadius: BorderConts.border100),
+                        child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: value.cartItems
+                                    ?.elementAt(index)
+                                    .cartItem
+                                    ?.image ??
+                                ""),
                       ),
                     ),
                     ConstantWidgets.sizedBoxWidth10,
