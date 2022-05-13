@@ -15,6 +15,8 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  late int totalItem;
+
   Future<void> addOrRemoveFromCart(
       {Value? item, int? count, bool? fromHome}) async {
     await db.addOrRemoveFromCart(item: item, count: count, fromHome: fromHome);
@@ -24,6 +26,13 @@ class CartProvider extends ChangeNotifier {
 
   Future<void> getcartItems() async {
     cartItems = await db.getCartItems();
+    totalItem = 0;
+    cartItems?.forEach(
+      (element) {
+        totalItem = totalItem + element.itemNumber!.toInt();
+        element.itemNumber;
+      },
+    );
     notifyListeners();
   }
 

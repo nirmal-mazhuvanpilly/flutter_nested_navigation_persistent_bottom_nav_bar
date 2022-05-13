@@ -86,8 +86,7 @@ class _CupertinoMainPageViewState extends State<CupertinoMainPageView> {
                                         shape: BoxShape.circle),
                                     child: FittedBox(
                                       child: Text(
-                                        value.cartItems?.length.toString() ??
-                                            "",
+                                        value.totalItem.toString(),
                                         style: TextStyleConsts.white,
                                       ),
                                     ),
