@@ -172,9 +172,9 @@ class ProductWidget extends StatelessWidget {
                                             context
                                                 .read<CartProvider>()
                                                 .addOrRemoveFromCart(
-                                                    item: productItem,
                                                     count: _count.value,
-                                                    homePage: true);
+                                                    item: productItem,
+                                                    fromHome: true);
                                             _count.value = 1;
                                           },
                                           child: const Text("ADD"),

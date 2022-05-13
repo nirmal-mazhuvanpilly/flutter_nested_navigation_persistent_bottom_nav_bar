@@ -39,9 +39,8 @@ class DbHelper {
 
   Future<void> addOrRemoveFromCart({
     Value? item,
-    bool increment = true,
-    int itemCount = 1,
-    bool homePage = false,
+    int? count,
+    bool? fromHome,
   }) async {
     Database? db = await database;
 
@@ -51,53 +50,23 @@ class DbHelper {
         (element) => (element.cartItem?.id == item?.id),
         orElse: () => CartItem());
 
-    if (item != null) {
-      String dataAsString = json.encode(item.toJson());
-      if (cartItem?.cartItem == null) {
-        Map<String, dynamic> data = {
-          "cart": dataAsString,
-          "item_number": itemCount
-        };
-        await db?.insert(
-          _tableName,
-          data,
-          conflictAlgorithm: ConflictAlgorithm.replace,
-        );
-      } else {
-        int? count = cartItem?.itemNumber;
-        if (count != null) {
-          if (homePage) {
-            count = count + itemCount;
-            Map<String, dynamic> data = {
-              "cart": dataAsString,
-              "item_number": count
-            };
-            await db?.update(_tableName, data,
-                where: "id = ?", whereArgs: [cartItem?.id]);
-          } else {
-            if (increment) {
-              count = count + 1;
-              Map<String, dynamic> data = {
-                "cart": dataAsString,
-                "item_number": count
-              };
-              await db?.update(_tableName, data,
-                  where: "id = ?", whereArgs: [cartItem?.id]);
-            } else {
-              count = count - 1;
-              if (count <= 0) {
-                deleteFromCart(id: cartItem?.id);
-              } else {
-                Map<String, dynamic> data = {
-                  "cart": dataAsString,
-                  "item_number": count
-                };
-                await db?.update(_tableName, data,
-                    where: "id = ?", whereArgs: [cartItem?.id]);
-              }
-            }
-          }
+    String dataAsString = json.encode(item?.toJson());
+    if (cartItem?.cartItem == null) {
+      Map<String, dynamic> data = {"cart": dataAsString, "item_number": count};
+      await db?.insert(
+        _tableName,
+        data,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } else {
+      if (fromHome ?? false) {
+        int? _count = cartItem?.itemNumber;
+        if (count != null && _count != null) {
+          _count = _count + count;
+          await updateCartItem(count: _count, id: cartItem?.id);
         }
+      } else {
+        await updateCartItem(count: count, id: cartItem?.id);
       }
     }
   }
@@ -112,6 +81,13 @@ class DbHelper {
     } else {
       return null;
     }
+  }
+
+  Future<void> updateCartItem({int? count, int? id}) async {
+    Database? db = await database;
+
+    db?.rawUpdate(
+        "UPDATE $_tableName SET $_itemNumber = $count WHERE $_id = $id");
   }
 
   Future<void> deleteFromCart({int? id}) async {

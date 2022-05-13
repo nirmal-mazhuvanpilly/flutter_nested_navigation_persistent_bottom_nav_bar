@@ -109,10 +109,17 @@ class _CartViewState extends State<CartView> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    value.addOrRemoveFromCart(
-                                        item: value.cartItems
-                                            ?.elementAt(index)
-                                            .cartItem);
+                                    int? _count = value.cartItems
+                                        ?.elementAt(index)
+                                        .itemNumber;
+                                    if (_count != null) {
+                                      _count = _count + 1;
+                                      value.addOrRemoveFromCart(
+                                          item: value.cartItems
+                                              ?.elementAt(index)
+                                              .cartItem,
+                                          count: _count);
+                                    }
                                   },
                                   child: Container(
                                       padding: PaddingConsts.padding5,
@@ -131,11 +138,24 @@ class _CartViewState extends State<CartView> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    value.addOrRemoveFromCart(
-                                        item: value.cartItems
-                                            ?.elementAt(index)
-                                            .cartItem,
-                                        inc: false);
+                                    int? _count = value.cartItems
+                                        ?.elementAt(index)
+                                        .itemNumber;
+                                    if (_count != null) {
+                                      _count = _count - 1;
+                                      if (_count < 1) {
+                                        value.deleteFromCart(
+                                            id: value.cartItems
+                                                ?.elementAt(index)
+                                                .id);
+                                      } else {
+                                        value.addOrRemoveFromCart(
+                                            item: value.cartItems
+                                                ?.elementAt(index)
+                                                .cartItem,
+                                            count: _count);
+                                      }
+                                    }
                                   },
                                   child: Container(
                                       padding: PaddingConsts.padding5,
