@@ -16,7 +16,8 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(builder: (context, value, child) {
+    return Consumer2<HomeProvider, CartProvider>(
+        builder: (context, value, cartValue, child) {
       final productInstance = value.homeModel?.homeData?.firstWhere(
         ((element) {
           if (element.type != null) {
@@ -32,14 +33,17 @@ class ProductWidget extends StatelessWidget {
       }
       return Container(
         padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
-        height: 325,
+        height: 300,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: productInstance.values?.length ?? 1,
           itemBuilder: (context, index) {
-            final ValueNotifier<int> _count = ValueNotifier<int>(1);
-
             final productItem = productInstance.values?.elementAt(index);
+
+            final cartItem = cartValue.cartItems?.firstWhere(
+                (element) => element.cartItem?.id == productItem?.id,
+                orElse: () => CartItem());
+
             return GestureDetector(
               onTap: () {
                 NavigatorKeysNControllers.homeNavigatorKey.currentState
@@ -48,7 +52,7 @@ class ProductWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    height: 325,
+                    height: 300,
                     width: 160,
                     decoration: BoxDecoration(
                       borderRadius: BorderConts.border5,
@@ -127,65 +131,93 @@ class ProductWidget extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (_count.value > 1) {
-                                        _count.value = _count.value - 1;
-                                      }
-                                    },
-                                    child: Container(
-                                        padding: PaddingConsts.padding5,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey.shade300,
-                                            shape: BoxShape.circle),
-                                        child:
-                                            const Icon(Icons.remove, size: 15)),
-                                  ),
-                                  ValueListenableBuilder<int>(
-                                    valueListenable: _count,
-                                    builder: (context, value, child) => Text(
-                                      value.toString(),
-                                      style: TextStyleConsts.boldGreenShade900,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _count.value = _count.value + 1;
-                                    },
-                                    child: Container(
-                                        padding: PaddingConsts.padding5,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey.shade300,
-                                            shape: BoxShape.circle),
-                                        child: const Icon(Icons.add, size: 15)),
-                                  ),
-                                ],
-                              ),
-                              ConstantWidgets.sizedBoxHeight10,
-                              Expanded(
-                                  flex: 2,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            context
-                                                .read<CartProvider>()
-                                                .addOrRemoveFromCart(
-                                                    count: _count.value,
-                                                    item: productItem,
-                                                    fromHome: true);
-                                            _count.value = 1;
+                              (cartItem?.cartItem == null)
+                                  ? Expanded(
+                                      flex: 2,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                context
+                                                    .read<CartProvider>()
+                                                    .addOrRemoveFromCart(
+                                                        count: 1,
+                                                        item: productItem,
+                                                        fromHome: true);
+                                              },
+                                              child: const Text("ADD"),
+                                            ),
+                                          ),
+                                        ],
+                                      ))
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            if (cartItem?.cartItem != null) {
+                                              int? count = cartItem?.itemNumber;
+                                              if (count != null) {
+                                                count = count - 1;
+                                                if (count < 1) {
+                                                  cartValue.deleteFromCart(
+                                                      id: cartItem?.id);
+                                                } else {
+                                                  cartValue.addOrRemoveFromCart(
+                                                      item: productItem,
+                                                      count: count);
+                                                }
+                                              }
+                                            }
                                           },
-                                          child: const Text("ADD"),
+                                          child: Container(
+                                              padding: PaddingConsts.padding5,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey.shade300,
+                                                  shape: BoxShape.circle),
+                                              child: const Icon(Icons.remove,
+                                                  size: 15)),
                                         ),
-                                      ),
-                                    ],
-                                  ))
+                                        (cartItem?.cartItem == null)
+                                            ? Text(
+                                                "0",
+                                                style: TextStyleConsts
+                                                    .boldGreenShade900,
+                                              )
+                                            : Text(
+                                                cartItem?.itemNumber
+                                                        .toString() ??
+                                                    "",
+                                                style: TextStyleConsts
+                                                    .boldGreenShade900,
+                                              ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            if (cartItem?.cartItem == null) {
+                                              cartValue.addOrRemoveFromCart(
+                                                  item: productItem, count: 1);
+                                            } else {
+                                              int? count = cartItem?.itemNumber;
+                                              if (count != null) {
+                                                count = count + 1;
+                                                cartValue.addOrRemoveFromCart(
+                                                    item: productItem,
+                                                    count: count);
+                                              }
+                                            }
+                                          },
+                                          child: Container(
+                                              padding: PaddingConsts.padding5,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey.shade300,
+                                                  shape: BoxShape.circle),
+                                              child: const Icon(Icons.add,
+                                                  size: 15)),
+                                        ),
+                                      ],
+                                    ),
                             ],
                           ),
                         ),
