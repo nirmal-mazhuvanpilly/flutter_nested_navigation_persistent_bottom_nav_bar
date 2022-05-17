@@ -4,6 +4,7 @@ import 'package:flutter_test_application/providers/favorites_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/services/locators.dart';
 import 'package:flutter_test_application/utils/common_routes.dart';
+import 'package:flutter_test_application/services/connectivty_service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -27,6 +28,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<FavoritesProvider>(
           create: (context) => FavoritesProvider(),
         ),
+        StreamProvider<ConnectivityStatus>(
+            create: (context) =>
+                ConnectivityService().connectionStatusController?.stream,
+            initialData: ConnectivityStatus.offline),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
