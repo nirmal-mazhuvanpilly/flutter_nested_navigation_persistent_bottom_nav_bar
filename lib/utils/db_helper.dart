@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_test_application/models/cart_model.dart';
+import 'package:flutter_test_application/models/favorite_model.dart';
 import 'package:flutter_test_application/models/home_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,6 +17,9 @@ class DbHelper {
   static const _id = "id";
   static const _cartItem = "cart";
   static const _itemNumber = "item_number";
+
+  static const _favoriteTable = "favorites";
+  static const _favoriteItem = "favorite_item";
 
   Database? _database;
 
@@ -34,7 +39,12 @@ class DbHelper {
   Future _onCreate(Database db, int version) async {
     const create =
         "CREATE TABLE $_tableName($_id INTEGER PRIMARY KEY, $_cartItem TEXT NOT NULL,$_itemNumber INTEGER)";
+
+    const createFavorite =
+        "CREATE TABLE $_favoriteTable($_id INTEGER PRIMARY KEY,$_favoriteItem TEXT NOT NULL)";
+
     await db.execute(create);
+    await db.execute(createFavorite);
   }
 
   Future<void> addOrRemoveFromCart({
@@ -98,5 +108,40 @@ class DbHelper {
   Future<void> clearDatabase() async {
     Database? db = await database;
     db?.delete(_tableName);
+  }
+
+  Future<void> addToFavorites({Value? item}) async {
+    Database? db = await database;
+
+    String dataAsString = json.encode(item?.toJson());
+
+    Map<String, dynamic> data = {_favoriteItem: dataAsString};
+    await db?.insert(
+      _favoriteTable,
+      data,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<FavoriteItem>?> getFavoriteItems() async {
+    Database? db = await database;
+
+    final List<Map<String, dynamic>>? maps = await db?.query(_favoriteTable);
+
+    if (maps?.length != null) {
+      return maps?.map((e) => FavoriteItem.fromJson(e)).toList();
+    } else {
+      return null;
+    }
+  }
+
+  Future<void> deleteFromFavorites({int? id}) async {
+    Database? db = await database;
+    await db?.rawDelete("DELETE FROM $_favoriteTable WHERE id = $id");
+  }
+
+  Future<void> clearFavorites() async {
+    Database? db = await database;
+    db?.delete(_favoriteTable);
   }
 }

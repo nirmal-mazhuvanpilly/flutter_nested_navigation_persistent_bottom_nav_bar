@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/border_constants.dart';
 import 'package:flutter_test_application/constants/text_style_constants.dart';
+import 'package:flutter_test_application/models/cart_model.dart';
+import 'package:flutter_test_application/models/favorite_model.dart';
+import 'package:flutter_test_application/providers/favorites_provider.dart';
 import 'package:flutter_test_application/widgets/clippers/flag_banner.dart';
 import 'package:flutter_test_application/widgets/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
@@ -16,8 +19,8 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<HomeProvider, CartProvider>(
-        builder: (context, value, cartValue, child) {
+    return Consumer3<HomeProvider, CartProvider, FavoritesProvider>(
+        builder: (context, value, cartValue, favoriteValue, child) {
       final productInstance = value.homeModel?.homeData?.firstWhere(
         ((element) {
           if (element.type != null) {
@@ -43,6 +46,10 @@ class ProductWidget extends StatelessWidget {
             final cartItem = cartValue.cartItems?.firstWhere(
                 (element) => element.cartItem?.id == productItem?.id,
                 orElse: () => CartItem());
+
+            final favoriteItem = favoriteValue.favoriteItems?.firstWhere(
+                (element) => element.value?.id == productItem?.id,
+                orElse: () => FavoriteItem());
 
             return GestureDetector(
               onTap: () {
@@ -81,12 +88,28 @@ class ProductWidget extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Align(
+                              Align(
                                 alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: Colors.grey,
-                                ),
+                                child: (favoriteItem?.value == null)
+                                    ? IconButton(
+                                        onPressed: () {
+                                          favoriteValue.addItemToFavorite(
+                                              item: productItem);
+                                        },
+                                        icon: const Icon(
+                                          Icons.favorite,
+                                          color: Colors.grey,
+                                        ),
+                                      )
+                                    : IconButton(
+                                        onPressed: () {
+                                          favoriteValue.clearFromFavorites(id: favoriteItem?.id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                        ),
+                                      ),
                               ),
                               Align(
                                 alignment: Alignment.center,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/providers/cart_provider.dart';
+import 'package:flutter_test_application/providers/favorites_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/services/locators.dart';
 import 'package:flutter_test_application/utils/common_routes.dart';
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<CartProvider>(
           create: (context) => CartProvider(),
+        ),
+        ChangeNotifierProvider<FavoritesProvider>(
+          create: (context) => FavoritesProvider(),
         ),
       ],
       child: MaterialApp(
