@@ -50,6 +50,33 @@ android {
         versionName flutterVersionName
     }
 
+    lintOptions {
+    checkReleaseBuilds false
+    }
+
+    flavorDimensions "app"
+
+    productFlavors {
+
+        staging {
+            dimension "app"
+            applicationId "com.example.flutter_test_application.staging"
+            minSdkVersion flutter.minSdkVersion
+            targetSdkVersion flutter.targetSdkVersion
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+        }
+
+        production {
+            dimension "app"
+            applicationId "com.example.flutter_test_application.production"
+            minSdkVersion flutter.minSdkVersion
+            targetSdkVersion flutter.targetSdkVersion
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.

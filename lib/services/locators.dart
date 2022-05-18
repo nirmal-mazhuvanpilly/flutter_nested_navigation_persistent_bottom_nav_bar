@@ -6,12 +6,10 @@ import 'package:get_it/get_it.dart';
 
 GetIt getIt = GetIt.instance;
 
-Future<void> setUpLocator() async {
-  bool testApi = true;
+Future<void> setUpLocator({required bool staging}) async {
   //Register for Singleton class //Always create single instance for every instance creation
   getIt.registerLazySingleton<BaseServices>(
-      // ignore: dead_code
-      () => testApi ? TestServices() : ApiServices());
+      () => staging ? TestServices() : ApiServices());
 
   getIt.registerLazySingleton<DbHelper>(() => DbHelper());
 }

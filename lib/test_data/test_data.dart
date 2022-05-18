@@ -46,6 +46,15 @@ class HomeTestData {
         "type": "products",
         "values": [
           {
+            "id": 19,
+            "name": "Product Testing",
+            "image": null,
+            "actual_price": "₹ 500",
+            "offer_price": "₹ 250",
+            "offer": 50,
+            "is_express": true
+          },
+          {
             "id": 20,
             "name": "Quaker Oats Pouch 1kg",
             "image": "https://i.ibb.co/Yhj6vwW/71-Yy6rdyc-DL-SL1500.jpg",
