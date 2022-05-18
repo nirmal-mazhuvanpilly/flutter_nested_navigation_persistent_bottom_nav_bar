@@ -12,6 +12,7 @@ import 'package:flutter_test_application/models/home_model.dart';
 import 'package:flutter_test_application/providers/cart_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/utils/navigator_keys.dart';
+import 'package:flutter_test_application/widgets/favorite_icon_widget.dart';
 import 'package:provider/provider.dart';
 
 class ProductWidget extends StatelessWidget {
@@ -67,50 +68,12 @@ class ProductWidget extends StatelessWidget {
                     ),
                     child: Stack(
                       children: [
-                        (productItem?.offer != 0)
-                            ? Positioned(
-                                top: 12,
-                                child: ClipPath(
-                                  clipper: const FlagBanner(),
-                                  child: Container(
-                                      color: Colors.red,
-                                      padding: const EdgeInsets.fromLTRB(
-                                          5.0, 2, 15.0, 2),
-                                      child: Text(
-                                        "${productItem?.offer ?? ""}% OFF",
-                                        style: TextStyleConsts.white,
-                                      )),
-                                ),
-                              )
-                            : ConstantWidgets.emptyBox,
                         Padding(
                           padding: PaddingConsts.padding12,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: (favoriteItem?.value == null)
-                                    ? IconButton(
-                                        onPressed: () {
-                                          favoriteValue.addItemToFavorite(
-                                              item: productItem);
-                                        },
-                                        icon: const Icon(
-                                          Icons.favorite,
-                                          color: Colors.grey,
-                                        ),
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          favoriteValue.clearFromFavorites(id: favoriteItem?.id);
-                                        },
-                                        icon: const Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                              ),
+                              const SizedBox(height: 30),
                               Align(
                                 alignment: Alignment.center,
                                 child: SizedBox(
@@ -244,6 +207,31 @@ class ProductWidget extends StatelessWidget {
                             ],
                           ),
                         ),
+                        Positioned(
+                          top: 5,
+                          right: 5,
+                          child: FavoriteIconWidget(
+                            favoriteItem: favoriteItem,
+                            productItem: productItem,
+                            isFavorite: favoriteItem?.value == null,
+                          ),
+                        ),
+                        (productItem?.offer != 0)
+                            ? Positioned(
+                                top: 12,
+                                child: ClipPath(
+                                  clipper: const FlagBanner(),
+                                  child: Container(
+                                      color: Colors.red,
+                                      padding: const EdgeInsets.fromLTRB(
+                                          5.0, 2, 15.0, 2),
+                                      child: Text(
+                                        "${productItem?.offer ?? ""}% OFF",
+                                        style: TextStyleConsts.white,
+                                      )),
+                                ),
+                              )
+                            : ConstantWidgets.emptyBox,
                       ],
                     ),
                   ),

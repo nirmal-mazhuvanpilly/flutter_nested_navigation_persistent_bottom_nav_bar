@@ -26,7 +26,42 @@ class ProductView extends StatelessWidget {
                       border: Border.all(color: Colors.grey.shade400)),
                   child: Stack(
                     children: [
-                      CachedNetworkImage(imageUrl: productItem?.image ?? ""),
+                      (productItem?.image == null ||
+                              productItem!.image!.isEmpty)
+                          ? CircleAvatar(
+                              radius: 500,
+                              backgroundColor: Colors.grey.shade200,
+                              child: Icon(
+                                Icons.image,
+                                size: 75,
+                                color: Colors.grey.shade500,
+                              ),
+                            )
+                          : CachedNetworkImage(
+                              imageUrl: productItem?.image ?? "",
+                              errorWidget: (context, string, dynamic) {
+                                return CircleAvatar(
+                                  radius: 500,
+                                  backgroundColor: Colors.grey.shade200,
+                                  child: Icon(
+                                    Icons.image,
+                                    size: 75,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                );
+                              },
+                              placeholder: (context, value) {
+                                return CircleAvatar(
+                                  radius: 500,
+                                  backgroundColor: Colors.grey.shade200,
+                                  child: Icon(
+                                    Icons.image,
+                                    size: 75,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                );
+                              },
+                            ),
                       (productItem?.isExpress == true)
                           ? Container(
                               color: Colors.amber,

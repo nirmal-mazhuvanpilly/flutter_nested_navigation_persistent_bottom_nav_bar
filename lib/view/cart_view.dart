@@ -57,13 +57,51 @@ class _CartViewState extends State<CartView> {
                         clipBehavior: Clip.antiAlias,
                         decoration:
                             BoxDecoration(borderRadius: BorderConts.border100),
-                        child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl: value.cartItems
-                                    ?.elementAt(index)
-                                    .cartItem
-                                    ?.image ??
-                                ""),
+                        child: (value.cartItems
+                                        ?.elementAt(index)
+                                        .cartItem
+                                        ?.image ==
+                                    null ||
+                                value.cartItems!
+                                    .elementAt(index)
+                                    .cartItem!
+                                    .image!
+                                    .isEmpty)
+                            ? CircleAvatar(
+                                backgroundColor: Colors.grey.shade400,
+                                child: Icon(
+                                  Icons.image,
+                                  size: 25,
+                                  color: Colors.grey.shade600,
+                                ),
+                              )
+                            : CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                errorWidget: (context, string, dynamic) {
+                                  return CircleAvatar(
+                                    backgroundColor: Colors.grey.shade400,
+                                    child: Icon(
+                                      Icons.image,
+                                      size: 25,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  );
+                                },
+                                placeholder: (context, value) {
+                                  return CircleAvatar(
+                                    backgroundColor: Colors.grey.shade400,
+                                    child: Icon(
+                                      Icons.image,
+                                      size: 25,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  );
+                                },
+                                imageUrl: value.cartItems
+                                        ?.elementAt(index)
+                                        .cartItem
+                                        ?.image ??
+                                    ""),
                       ),
                     ),
                     ConstantWidgets.sizedBoxWidth10,

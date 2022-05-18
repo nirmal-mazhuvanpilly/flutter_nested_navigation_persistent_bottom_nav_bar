@@ -49,13 +49,51 @@ class FavoritesView extends StatelessWidget {
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
                               borderRadius: BorderConts.border100),
-                          child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: value.favoriteItems
-                                      ?.elementAt(index)
-                                      .value
-                                      ?.image ??
-                                  ""),
+                          child: (value.favoriteItems
+                                          ?.elementAt(index)
+                                          .value
+                                          ?.image ==
+                                      null ||
+                                  value.favoriteItems!
+                                      .elementAt(index)
+                                      .value!
+                                      .image!
+                                      .isEmpty)
+                              ? CircleAvatar(
+                                  backgroundColor: Colors.grey.shade400,
+                                  child: Icon(
+                                    Icons.image,
+                                    size: 25,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                )
+                              : CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, string, dynamic) {
+                                    return CircleAvatar(
+                                      backgroundColor: Colors.grey.shade400,
+                                      child: Icon(
+                                        Icons.image,
+                                        size: 25,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    );
+                                  },
+                                  placeholder: (context, value) {
+                                    return CircleAvatar(
+                                      backgroundColor: Colors.grey.shade400,
+                                      child: Icon(
+                                        Icons.image,
+                                        size: 25,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    );
+                                  },
+                                  imageUrl: value.favoriteItems
+                                          ?.elementAt(index)
+                                          .value
+                                          ?.image ??
+                                      ""),
                         ),
                       ),
                       ConstantWidgets.sizedBoxWidth10,
