@@ -1,7 +1,9 @@
+import 'package:activity_recognition_flutter/activity_recognition_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/constants/text_style_constants.dart';
+import 'package:flutter_test_application/providers/actvity_tracker_provider.dart';
 import 'package:flutter_test_application/providers/favorites_provider.dart';
 import 'package:flutter_test_application/widgets/connectivity_widget.dart';
 import 'package:flutter_test_application/widgets/constant_widgets.dart';
@@ -30,6 +32,9 @@ class _CupertinoMainPageViewState extends State<CupertinoMainPageView> {
       context.read<HomeProvider>().getHomeData();
       context.read<CartProvider>().getcartItems();
       context.read<FavoritesProvider>().getFavoriteItems();
+      final activityProvider = context.read<ActivityTrackerProvider>();
+      activityProvider.init();
+      activityProvider.events.add(ActivityEvent.unknown());
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_application/providers/actvity_tracker_provider.dart';
 import 'package:flutter_test_application/providers/cart_provider.dart';
 import 'package:flutter_test_application/providers/favorites_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<FavoritesProvider>(
           create: (context) => FavoritesProvider(),
+        ),
+        ChangeNotifierProvider<ActivityTrackerProvider>(
+          create: (context) => ActivityTrackerProvider(),
         ),
         StreamProvider<ConnectivityStatus>(
             create: (context) =>
