@@ -4,6 +4,7 @@ import 'package:flutter_test_application/view/cart_view.dart';
 import 'package:flutter_test_application/view/cupertino_main_page_view.dart';
 import 'package:flutter_test_application/view/favorites_view.dart';
 import 'package:flutter_test_application/view/home_view.dart';
+import 'package:flutter_test_application/view/pedometer_view.dart';
 import 'package:flutter_test_application/view/product_view.dart';
 import 'package:flutter_test_application/view/splash_view.dart';
 
@@ -37,6 +38,8 @@ class CommonRoute {
         return MaterialPageRoute(builder: (context) => const FavoritesView());
       case "splash_view":
         return MaterialPageRoute(builder: (context) => const SplashView());
+      case "pedometer_view":
+        return MaterialPageRoute(builder: (context) => const PedoMeterView());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

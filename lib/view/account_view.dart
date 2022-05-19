@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_application/constants/padding_constants.dart';
+import 'package:flutter_test_application/utils/navigator_keys.dart';
 import 'package:flutter_test_application/widgets/count_down_timer_widget.dart';
 
 class AccountView extends StatelessWidget {
@@ -16,6 +18,22 @@ class AccountView extends StatelessWidget {
               child: CountDownTimerWidget(),
             ),
           )
+        ],
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: PaddingConsts.padding10,
+            child: ElevatedButton(
+              onPressed: () {
+                NavigatorKeysNControllers.accountNavigatorKey.currentState
+                    ?.pushNamed("pedometer_view");
+              },
+              child: const Text("Pedometer"),
+            ),
+          ),
         ],
       ),
     );
