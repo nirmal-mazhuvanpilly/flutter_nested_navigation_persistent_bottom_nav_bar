@@ -44,7 +44,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.flutter_test_application"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -61,7 +61,7 @@ android {
         staging {
             dimension "app"
             applicationId "com.example.flutter_test_application.staging"
-            minSdkVersion flutter.minSdkVersion
+            minSdkVersion 21
             targetSdkVersion flutter.targetSdkVersion
             versionCode flutterVersionCode.toInteger()
             versionName flutterVersionName
@@ -70,7 +70,7 @@ android {
         production {
             dimension "app"
             applicationId "com.example.flutter_test_application.production"
-            minSdkVersion flutter.minSdkVersion
+            minSdkVersion 21
             targetSdkVersion flutter.targetSdkVersion
             versionCode flutterVersionCode.toInteger()
             versionName flutterVersionName
