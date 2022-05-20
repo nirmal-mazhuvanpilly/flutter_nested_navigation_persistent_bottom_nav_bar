@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_application/utils/helpers.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -16,8 +17,6 @@ class _PedoMeterViewState extends State<PedoMeterView> {
   String? status;
   late int initialCount;
   int? stepCount;
-
-  bool? isSupport;
 
   @override
   void initState() {
@@ -47,14 +46,15 @@ class _PedoMeterViewState extends State<PedoMeterView> {
       status = 'Not available';
       stepCount = 0;
     });
+    Helpers.showToast(toastMessage: "Pedometer not available on this device");
   }
 
   void onStepCountError(Object error) {
     setState(() {
-      isSupport = false;
       status = 'Not available';
       stepCount = 0;
     });
+    Helpers.showToast(toastMessage: "Pedometer not available on this device");
   }
 
   void initPlatformState() async {
