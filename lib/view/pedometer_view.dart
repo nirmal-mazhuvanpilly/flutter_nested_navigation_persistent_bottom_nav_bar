@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/utils/helpers.dart';
+import 'package:flutter_test_application/widgets/constant_widgets.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -14,9 +17,14 @@ class _PedoMeterViewState extends State<PedoMeterView> {
   late Stream<StepCount>? stepCountStream;
   late Stream<PedestrianStatus>? pedestrianStatusStream;
 
+  late StreamSubscription<StepCount>? stepCountStreamSubscription;
+  late StreamSubscription<PedestrianStatus>? pedestrianStatusStreamSubscription;
+
   String? status;
   late int initialCount;
   int? stepCount;
+
+  ValueNotifier<bool> isPaused = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -60,19 +68,19 @@ class _PedoMeterViewState extends State<PedoMeterView> {
   void initPlatformState() async {
     if (await Permission.activityRecognition.request().isGranted) {
       pedestrianStatusStream = Pedometer.pedestrianStatusStream;
-      pedestrianStatusStream
-          ?.listen(onPedestrianStatusChanged)
-          .onError(onPedestrianStatusError);
+      pedestrianStatusStreamSubscription = pedestrianStatusStream?.listen(
+        onPedestrianStatusChanged,
+        onError: onPedestrianStatusError,
+      );
 
       stepCountStream = Pedometer.stepCountStream;
+      stepCountStreamSubscription = stepCountStream?.listen(
+        onStepCount,
+        onError: onStepCountError,
+      );
       stepCountStream?.first.then((value) {
         initialCount = value.steps;
       });
-      stepCountStream
-          ?.listen(
-            onStepCount,
-          )
-          .onError(onStepCountError);
     }
     if (!mounted) return;
   }
@@ -87,18 +95,20 @@ class _PedoMeterViewState extends State<PedoMeterView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RichText(
-                text: TextSpan(children: [
-              const TextSpan(
-                  text: "Steps taken : ",
-                  style: TextStyle(color: Colors.green, fontSize: 20)),
-              TextSpan(
-                  text: stepCount.toString(),
-                  style: const TextStyle(
-                      color: Colors.green,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold)),
-            ])),
+            (stepCount == null)
+                ? ConstantWidgets.emptyBox
+                : RichText(
+                    text: TextSpan(children: [
+                    const TextSpan(
+                        text: "Steps taken : ",
+                        style: TextStyle(color: Colors.green, fontSize: 20)),
+                    TextSpan(
+                        text: stepCount.toString(),
+                        style: const TextStyle(
+                            color: Colors.green,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold)),
+                  ])),
             RichText(
                 text: TextSpan(children: [
               const TextSpan(
@@ -111,6 +121,41 @@ class _PedoMeterViewState extends State<PedoMeterView> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold)),
             ])),
+            ValueListenableBuilder<bool>(
+                valueListenable: isPaused,
+                builder: (context, value, child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      value
+                          ? ConstantWidgets.emptyBox
+                          : IconButton(
+                              color: Colors.green,
+                              onPressed: () {
+                                if (stepCountStreamSubscription?.isPaused ??
+                                    false) {
+                                  stepCountStreamSubscription?.resume();
+                                }
+                                isPaused.value = !isPaused.value;
+                              },
+                              icon: const Icon(Icons.play_arrow),
+                            ),
+                      value
+                          ? IconButton(
+                              color: Colors.green,
+                              onPressed: () {
+                                if (!(stepCountStreamSubscription?.isPaused ??
+                                    false)) {
+                                  stepCountStreamSubscription?.pause();
+                                }
+                                isPaused.value = !isPaused.value;
+                              },
+                              icon: const Icon(Icons.pause),
+                            )
+                          : ConstantWidgets.emptyBox,
+                    ],
+                  );
+                }),
           ],
         ),
       ),
