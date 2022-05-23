@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Staging - Machine Test</string>
+    <string name="host">stagingexample.page.link</string>
+    <string name="scheme">https</string>
 </resources>

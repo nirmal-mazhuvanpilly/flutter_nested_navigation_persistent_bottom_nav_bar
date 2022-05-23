@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/constants/text_style_constants.dart';
 import 'package:flutter_test_application/providers/favorites_provider.dart';
+import 'package:flutter_test_application/utils/firebase_services.dart';
 import 'package:flutter_test_application/widgets/connectivity_widget.dart';
 import 'package:flutter_test_application/widgets/constant_widgets.dart';
 import 'package:flutter_test_application/cupertino_navigators/account_navigator.dart';
@@ -27,6 +28,8 @@ class _CupertinoMainPageViewState extends State<CupertinoMainPageView> {
   void initState() {
     super.initState();
     Future.microtask(() {
+      FirebaseServices.getInitialDynamicLinkData();
+      FirebaseServices.getForegroundDynamicLinkData();
       context.read<HomeProvider>().getHomeData();
       context.read<CartProvider>().getcartItems();
       context.read<FavoritesProvider>().getFavoriteItems();
