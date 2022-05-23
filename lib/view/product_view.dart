@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/text_style_constants.dart';
+import 'package:flutter_test_application/utils/firebase_services.dart';
 import 'package:flutter_test_application/widgets/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/models/home_model.dart';
@@ -15,6 +16,14 @@ class ProductView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(productItem?.name ?? ""),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  FirebaseServices.createDynamicLink(
+                      id: productItem?.id.toString(), name: productItem?.name);
+                },
+                icon: const Icon(Icons.share))
+          ],
         ),
         body: Center(
           child: Column(

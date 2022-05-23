@@ -13,4 +13,10 @@ class TestServices implements BaseServices {
       return null;
     }
   }
+
+  @override
+  Map<String, dynamic>? urlAndSchemes = {
+    "hostUrl": "https://stagingexample.page.link",
+    "packageName": "com.example.flutter_test_application.production",
+  };
 }

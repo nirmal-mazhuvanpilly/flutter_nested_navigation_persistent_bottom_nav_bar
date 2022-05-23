@@ -21,4 +21,10 @@ class ApiServices implements BaseServices {
       return null;
     }
   }
+
+  @override
+  Map<String, dynamic>? urlAndSchemes = {
+    "hostUrl": "https://productionexample.page.link",
+    "packageName": "com.example.flutter_test_application.staging",
+  };
 }
