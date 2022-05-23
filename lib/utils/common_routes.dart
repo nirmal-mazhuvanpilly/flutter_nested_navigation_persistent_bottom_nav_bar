@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/models/home_model.dart';
+import 'package:flutter_test_application/view/accelerometer_view.dart';
 import 'package:flutter_test_application/view/cart_view.dart';
 import 'package:flutter_test_application/view/cupertino_main_page_view.dart';
 import 'package:flutter_test_application/view/favorites_view.dart';
@@ -37,6 +38,9 @@ class CommonRoute {
         return MaterialPageRoute(builder: (context) => const FavoritesView());
       case "splash_view":
         return MaterialPageRoute(builder: (context) => const SplashView());
+      case "accelerometer_view":
+        return MaterialPageRoute(
+            builder: (context) => const AccelerometerView());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
