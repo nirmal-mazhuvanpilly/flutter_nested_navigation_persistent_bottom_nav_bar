@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test_application/services/base_services.dart';
@@ -43,5 +44,23 @@ class FirebaseServices {
     );
 
     debugPrint(unguessableDynamicLink.shortUrl.toString());
+  }
+
+  static Future<void> saveDeviceInfoToFirebase({String? deviceName}) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    QuerySnapshot querySnapshot = await users.get();
+
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (deviceName != null) {
+      if (!allData.any((element) {
+        Map<String, dynamic> data = element as Map<String, dynamic>;
+        return data["device"] == deviceName;
+      })) {
+        users.add({"device": deviceName});
+      }
+    }
   }
 }
