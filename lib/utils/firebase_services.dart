@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test_application/services/base_services.dart';
 import 'package:flutter_test_application/services/locators.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class FirebaseServices {
   static final apiServices = getIt<BaseServices>();
@@ -86,10 +87,15 @@ class FirebaseServices {
   //Push notifications in Background state (Not terminated).
   static Future<void> notificationOnMessage() async {
     await Firebase.initializeApp();
+    final token = await FirebaseMessaging.instance
+        .getToken(); //Call this method before onMessage, Otherwise it wont listen foreground messages
+    debugPrint(token);
     FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {
       debugPrint('A new onMessage event was published!');
       if (remoteMessage != null) {
         debugPrint(remoteMessage.data.toString());
+        showSimpleNotification(Text(remoteMessage.data.toString()),
+            background: Colors.grey.shade900);
       }
     });
   }
