@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test_application/services/base_services.dart';
 import 'package:flutter_test_application/services/locators.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class FirebaseServices {
   static final apiServices = getIt<BaseServices>();
@@ -43,5 +47,56 @@ class FirebaseServices {
     );
 
     debugPrint(unguessableDynamicLink.shortUrl.toString());
+  }
+
+  static Future<void> saveDeviceInfoToFirebase({String? deviceName}) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    QuerySnapshot querySnapshot = await users.get();
+
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (deviceName != null) {
+      if (!allData.any((element) {
+        Map<String, dynamic> data = element as Map<String, dynamic>;
+        return data["device"] == deviceName;
+      })) {
+        users.add({"device": deviceName});
+      }
+    }
+  }
+
+  //Push notifications in Background & Terminated State
+  static Future<void> notificationOnBackgroundMessage(
+      Future<void> Function(RemoteMessage) remoteMessage) async {
+    FirebaseMessaging.onBackgroundMessage(remoteMessage);
+  }
+
+  //Push notifications in Background state (Not terminated).
+  static Future<void> notificationOnMessageOpenedApp() async {
+    await Firebase.initializeApp();
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? remoteMessage) {
+      debugPrint('A new onMessageOpenedApp event was published!');
+      if (remoteMessage != null) {
+        debugPrint(remoteMessage.data.toString());
+      }
+    });
+  }
+
+  //Push notifications in Background state (Not terminated).
+  static Future<void> notificationOnMessage() async {
+    await Firebase.initializeApp();
+    final token = await FirebaseMessaging.instance
+        .getToken(); //Call this method before onMessage, Otherwise it wont listen foreground messages
+    debugPrint(token);
+    FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {
+      debugPrint('A new onMessage event was published!');
+      if (remoteMessage != null) {
+        debugPrint(remoteMessage.data.toString());
+        showSimpleNotification(Text(remoteMessage.data.toString()),
+            background: Colors.grey.shade900);
+      }
+    });
   }
 }

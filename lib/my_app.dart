@@ -4,6 +4,7 @@ import 'package:flutter_test_application/providers/favorites_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
 import 'package:flutter_test_application/utils/common_routes.dart';
 import 'package:flutter_test_application/services/connectivty_service.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
@@ -27,14 +28,16 @@ class MyApp extends StatelessWidget {
                 ConnectivityService().connectionStatusController?.stream,
             initialData: ConnectivityStatus.offline),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Machine Test',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
+      child: OverlaySupport.global(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Machine Test',
+          theme: ThemeData(
+            primarySwatch: Colors.green,
+          ),
+          initialRoute: "splash_view",
+          onGenerateRoute: CommonRoute.generatedRoutes,
         ),
-        initialRoute: "splash_view",
-        onGenerateRoute: CommonRoute.generatedRoutes,
       ),
     );
   }
