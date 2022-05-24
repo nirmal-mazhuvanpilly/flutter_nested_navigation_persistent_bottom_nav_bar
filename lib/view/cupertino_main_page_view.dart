@@ -31,6 +31,8 @@ class _CupertinoMainPageViewState extends State<CupertinoMainPageView> {
     Future.microtask(() {
       FirebaseServices.getInitialDynamicLinkData();
       FirebaseServices.getForegroundDynamicLinkData();
+      FirebaseServices.notificationOnMessageOpenedApp();
+      FirebaseServices.notificationOnMessage();
       context.read<HomeProvider>().getHomeData();
       context.read<CartProvider>().getcartItems();
       context.read<FavoritesProvider>().getFavoriteItems();

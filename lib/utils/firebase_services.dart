@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test_application/services/base_services.dart';
 import 'package:flutter_test_application/services/locators.dart';
@@ -62,5 +64,33 @@ class FirebaseServices {
         users.add({"device": deviceName});
       }
     }
+  }
+
+  //Push notifications in Background & Terminated State
+  static Future<void> notificationOnBackgroundMessage(
+      Future<void> Function(RemoteMessage) remoteMessage) async {
+    FirebaseMessaging.onBackgroundMessage(remoteMessage);
+  }
+
+  //Push notifications in Background state (Not terminated).
+  static Future<void> notificationOnMessageOpenedApp() async {
+    await Firebase.initializeApp();
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? remoteMessage) {
+      debugPrint('A new onMessageOpenedApp event was published!');
+      if (remoteMessage != null) {
+        debugPrint(remoteMessage.data.toString());
+      }
+    });
+  }
+
+  //Push notifications in Background state (Not terminated).
+  static Future<void> notificationOnMessage() async {
+    await Firebase.initializeApp();
+    FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {
+      debugPrint('A new onMessage event was published!');
+      if (remoteMessage != null) {
+        debugPrint(remoteMessage.data.toString());
+      }
+    });
   }
 }
