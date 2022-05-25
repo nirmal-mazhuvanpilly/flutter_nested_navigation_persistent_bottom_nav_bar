@@ -101,4 +101,18 @@ class FirebaseServices {
       }
     });
   }
+
+  //Push notifications data from Terminated State
+  static Future<void> notificationInitialMessage() async {
+    await Firebase.initializeApp();
+    final RemoteMessage? remoteMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (remoteMessage != null) {
+      debugPrint(remoteMessage.data.toString());
+      Future.delayed(const Duration(seconds: 10)).then((value) {
+        showSimpleNotification(Text(remoteMessage.data.toString()),
+            background: Colors.red);
+      });
+    }
+  }
 }
