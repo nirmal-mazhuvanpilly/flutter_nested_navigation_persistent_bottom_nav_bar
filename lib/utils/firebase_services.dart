@@ -105,6 +105,7 @@ class FirebaseServices {
   //Push notifications data from Terminated State
   static Future<void> notificationInitialMessage() async {
     await Firebase.initializeApp();
+    FirebaseMessaging.instance.subscribeToTopic("testing");
     final RemoteMessage? remoteMessage =
         await FirebaseMessaging.instance.getInitialMessage();
     if (remoteMessage != null) {
