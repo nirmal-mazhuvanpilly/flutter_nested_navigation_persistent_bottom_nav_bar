@@ -30,15 +30,15 @@ class FirebaseServices {
     }).onError((error) {});
   }
 
-  static Future<void> createDynamicLink({String? id, String? name}) async {
+  static Future<Uri?> createDynamicLink({String? id, String? name}) async {
     final String hostUrl = apiServices.urlAndSchemes?["hostUrl"];
     final String packageName = apiServices.urlAndSchemes?["packageName"];
 
     final dynamicLinkParams = DynamicLinkParameters(
-      link: Uri.parse("http://www.google.com/?id=$id&name=$name"),
-      uriPrefix: hostUrl,
-      androidParameters: AndroidParameters(packageName: packageName),
-    );
+        link: Uri.parse("http://www.google.com/?id=$id&name=$name"),
+        uriPrefix: hostUrl,
+        androidParameters: AndroidParameters(packageName: packageName),
+        socialMetaTagParameters: SocialMetaTagParameters(title: name));
 
     final unguessableDynamicLink =
         await FirebaseDynamicLinks.instance.buildShortLink(
@@ -47,6 +47,8 @@ class FirebaseServices {
     );
 
     debugPrint(unguessableDynamicLink.shortUrl.toString());
+
+    return unguessableDynamicLink.shortUrl;
   }
 
   static Future<void> saveDeviceInfoToFirebase({String? deviceName}) async {
@@ -84,7 +86,7 @@ class FirebaseServices {
     });
   }
 
-  //Push notifications in Background state (Not terminated).
+  //Push notifications in Foreground state.
   static Future<void> notificationOnMessage() async {
     await Firebase.initializeApp();
     final token = await FirebaseMessaging.instance

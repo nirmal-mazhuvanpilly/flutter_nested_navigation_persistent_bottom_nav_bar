@@ -6,6 +6,7 @@ import 'package:flutter_test_application/widgets/constant_widgets.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/models/home_model.dart';
 import 'package:flutter_test_application/utils/navigator_keys.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ProductView extends StatelessWidget {
   final Value? productItem;
@@ -18,9 +19,13 @@ class ProductView extends StatelessWidget {
           title: Text(productItem?.name ?? ""),
           actions: [
             IconButton(
-                onPressed: () {
-                  FirebaseServices.createDynamicLink(
+                onPressed: () async {
+                  final uri = await FirebaseServices.createDynamicLink(
                       id: productItem?.id.toString(), name: productItem?.name);
+                  if (uri != null) {
+                    Share.share(uri.toString())
+                        .whenComplete(() => Navigator.of(context).pop());
+                  }
                 },
                 icon: const Icon(Icons.share))
           ],
