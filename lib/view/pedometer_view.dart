@@ -21,7 +21,7 @@ class _PedoMeterViewState extends State<PedoMeterView> {
   late StreamSubscription<PedestrianStatus>? pedestrianStatusStreamSubscription;
 
   String? status;
-  late int initialCount;
+  int? initialCount;
   int? stepCount;
 
   ValueNotifier<bool> isPaused = ValueNotifier<bool>(true);
@@ -39,7 +39,12 @@ class _PedoMeterViewState extends State<PedoMeterView> {
 
   void onStepCount(StepCount event) {
     setState(() {
-      stepCount = event.steps - initialCount;
+      if (initialCount != null) {
+        stepCount = (event.steps - initialCount!);
+        debugPrint("Stream steps : " + event.steps.toString());
+        debugPrint("Initial Count : " + initialCount.toString());
+        debugPrint("Step Count : " + stepCount.toString());
+      }
     });
   }
 
@@ -67,13 +72,14 @@ class _PedoMeterViewState extends State<PedoMeterView> {
 
   void initPlatformState() async {
     if (await Permission.activityRecognition.request().isGranted) {
-      pedestrianStatusStream = Pedometer.pedestrianStatusStream;
+      pedestrianStatusStream =
+          Pedometer.pedestrianStatusStream.asBroadcastStream();
       pedestrianStatusStreamSubscription = pedestrianStatusStream?.listen(
         onPedestrianStatusChanged,
         onError: onPedestrianStatusError,
       );
 
-      stepCountStream = Pedometer.stepCountStream;
+      stepCountStream = Pedometer.stepCountStream.asBroadcastStream();
       stepCountStreamSubscription = stepCountStream?.listen(
         onStepCount,
         onError: onStepCountError,
@@ -131,11 +137,19 @@ class _PedoMeterViewState extends State<PedoMeterView> {
                           ? ConstantWidgets.emptyBox
                           : IconButton(
                               color: Colors.green,
-                              onPressed: () {
-                                if (stepCountStreamSubscription?.isPaused ??
-                                    false) {
-                                  stepCountStreamSubscription?.resume();
-                                }
+                              onPressed: () async {
+                                stepCountStream = Pedometer.stepCountStream
+                                    .asBroadcastStream();
+
+                                stepCountStream?.first.then((value) {
+                                  initialCount = value.steps;
+                                  stepCountStreamSubscription =
+                                      stepCountStream?.listen(
+                                    onStepCount,
+                                    onError: onStepCountError,
+                                  );
+                                });
+
                                 isPaused.value = !isPaused.value;
                               },
                               icon: const Icon(Icons.play_arrow),
@@ -144,10 +158,10 @@ class _PedoMeterViewState extends State<PedoMeterView> {
                           ? IconButton(
                               color: Colors.green,
                               onPressed: () {
-                                if (!(stepCountStreamSubscription?.isPaused ??
-                                    false)) {
-                                  stepCountStreamSubscription?.pause();
-                                }
+                                setState(() {
+                                  stepCount = 0;
+                                });
+                                stepCountStreamSubscription?.cancel();
                                 isPaused.value = !isPaused.value;
                               },
                               icon: const Icon(Icons.pause),
