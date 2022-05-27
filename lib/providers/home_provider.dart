@@ -20,7 +20,7 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> getHomeData() async {
     if (await Helpers.isInternetAvailable()) {
-      Future.delayed(const Duration(seconds: 4)).then((value) async {
+      Future.delayed(const Duration(seconds: 2)).then((value) async {
         homeModel = await apiServices.getHomeData();
         isInternetAvailable = true;
         notifyListeners();

@@ -11,10 +11,11 @@ class CommonRoute {
   static Route<dynamic>? generatedRoutes(RouteSettings settings) {
     switch (settings.name) {
       case "cupertino_main_page":
-        return MaterialPageRoute(
-          builder: (context) {
-            return const CupertinoMainPageView();
-          },
+        return PageRouteBuilder(
+          pageBuilder: (_, __, ___) => const CupertinoMainPageView(),
+          transitionsBuilder: (_, animation, __, child) =>
+              FadeTransition(opacity: animation, child: child),
+          transitionDuration: const Duration(milliseconds: 500),
         );
       case "home_view":
         return MaterialPageRoute(
