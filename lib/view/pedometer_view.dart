@@ -14,11 +14,11 @@ class PedoMeterView extends StatefulWidget {
 }
 
 class _PedoMeterViewState extends State<PedoMeterView> {
-  late Stream<StepCount>? stepCountStream;
-  late Stream<PedestrianStatus>? pedestrianStatusStream;
+  Stream<StepCount>? stepCountStream;
+  Stream<PedestrianStatus>? pedestrianStatusStream;
 
-  late StreamSubscription<StepCount>? stepCountStreamSubscription;
-  late StreamSubscription<PedestrianStatus>? pedestrianStatusStreamSubscription;
+  StreamSubscription<StepCount>? stepCountStreamSubscription;
+  StreamSubscription<PedestrianStatus>? pedestrianStatusStreamSubscription;
 
   String? status;
   int? initialCount;
@@ -26,14 +26,37 @@ class _PedoMeterViewState extends State<PedoMeterView> {
 
   ValueNotifier<bool> isPaused = ValueNotifier<bool>(true);
 
+  int totalSeconds = 0;
+
+  double distanceInMeters = 0;
+  double distanceInKm = 0;
+
+  Timer? timer;
+
+  void startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      totalSeconds = timer.tick;
+      debugPrint(totalSeconds.toString());
+    });
+  }
+
+  double getDistanceInMeters(int? _stepCount) {
+    return _stepCount! * 0.762;
+  }
+
+  double getDistanceInKilometers(int? _stepCount) {
+    return _stepCount! / 1312.3359580052;
+  }
+
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    startTimer();
   }
 
   @override
   void dispose() {
+    timer?.cancel();
     super.dispose();
   }
 
@@ -41,6 +64,8 @@ class _PedoMeterViewState extends State<PedoMeterView> {
     setState(() {
       if (initialCount != null) {
         stepCount = (event.steps - initialCount!);
+        distanceInMeters = getDistanceInMeters(stepCount);
+        distanceInKm = getDistanceInKilometers(stepCount);
         debugPrint("Stream steps : " + event.steps.toString());
         debugPrint("Initial Count : " + initialCount.toString());
         debugPrint("Step Count : " + stepCount.toString());
@@ -138,6 +163,7 @@ class _PedoMeterViewState extends State<PedoMeterView> {
                           : IconButton(
                               color: Colors.green,
                               onPressed: () async {
+                                startTimer();
                                 stepCountStream = Pedometer.stepCountStream
                                     .asBroadcastStream();
 
@@ -158,8 +184,11 @@ class _PedoMeterViewState extends State<PedoMeterView> {
                           ? IconButton(
                               color: Colors.green,
                               onPressed: () {
+                                timer?.cancel();
                                 setState(() {
                                   stepCount = 0;
+                                  distanceInMeters = 0;
+                                  distanceInKm = 0;
                                 });
                                 stepCountStreamSubscription?.cancel();
                                 isPaused.value = !isPaused.value;
@@ -170,6 +199,30 @@ class _PedoMeterViewState extends State<PedoMeterView> {
                     ],
                   );
                 }),
+            RichText(
+                text: TextSpan(children: [
+              const TextSpan(
+                  text: "Distance Traveled : ",
+                  style: TextStyle(color: Colors.green, fontSize: 20)),
+              TextSpan(
+                  text: "${distanceInMeters.toString()} Meters",
+                  style: const TextStyle(
+                      color: Colors.green,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
+            ])),
+            RichText(
+                text: TextSpan(children: [
+              const TextSpan(
+                  text: "Distance Traveled : ",
+                  style: TextStyle(color: Colors.green, fontSize: 20)),
+              TextSpan(
+                  text: "${distanceInKm.toString()} Kilometers",
+                  style: const TextStyle(
+                      color: Colors.green,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
+            ])),
           ],
         ),
       ),
