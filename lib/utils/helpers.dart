@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_test_application/utils/firebase_services.dart';
 
@@ -26,5 +28,13 @@ class Helpers {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       FirebaseServices.saveDeviceInfoToFirebase(deviceName: androidInfo.model);
     }
+  }
+
+  static Future<Uint8List> dataFromBase64String(String base64String) async {
+    return base64Decode(base64String);
+  }
+
+  static Future<String> base64String(Uint8List data) async {
+    return base64Encode(data);
   }
 }

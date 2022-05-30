@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_test_application/models/account_model.dart';
 import 'package:flutter_test_application/models/cart_model.dart';
 import 'package:flutter_test_application/models/favorite_model.dart';
 import 'package:flutter_test_application/models/home_model.dart';
@@ -20,6 +21,10 @@ class DbHelper {
 
   static const _favoriteTable = "favorites";
   static const _favoriteItem = "favorite_item";
+
+  static const _accountTable = "account";
+  static const _userName = "user_name";
+  static const _image = "image";
 
   Database? _database;
 
@@ -43,8 +48,12 @@ class DbHelper {
     const createFavorite =
         "CREATE TABLE $_favoriteTable($_id INTEGER PRIMARY KEY,$_favoriteItem TEXT NOT NULL)";
 
+    const createAccount =
+        "CREATE TABLE $_accountTable($_id INTEGER,$_userName TEXT,$_image TEXT)";
+
     await db.execute(create);
     await db.execute(createFavorite);
+    await db.execute(createAccount);
   }
 
   Future<void> addOrRemoveFromCart({
@@ -143,5 +152,39 @@ class DbHelper {
   Future<void> clearFavorites() async {
     Database? db = await database;
     db?.delete(_favoriteTable);
+  }
+
+  Future<void> uploadImage({String? image}) async {
+    Database? db = await database;
+
+    final list = await db?.query(_accountTable);
+    if (list?.isEmpty ?? false) {
+      Map<String, dynamic> data = {
+        "id": 1,
+        "user_name": "",
+        _image: image,
+      };
+      await db?.insert(
+        _accountTable,
+        data,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } else {
+      int id = 1;
+      await db?.rawUpdate(
+          "UPDATE $_accountTable SET image = ? WHERE $id = $id", [image]);
+    }
+  }
+
+  Future<Account?> getAccountData() async {
+    Database? db = await database;
+    final list = await db?.query(_accountTable);
+    if (list?.isNotEmpty ?? false) {
+      final map = list?.elementAt(0);
+      final account = Account.fromJson(map);
+      return account;
+    } else {
+      return null;
+    }
   }
 }

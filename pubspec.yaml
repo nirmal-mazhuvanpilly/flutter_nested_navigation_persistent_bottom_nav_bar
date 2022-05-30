@@ -50,6 +50,7 @@ dependencies:
   firebase_messaging: ^11.4.0
   overlay_support: ^1.2.1
   share_plus: ^4.0.4
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_test:

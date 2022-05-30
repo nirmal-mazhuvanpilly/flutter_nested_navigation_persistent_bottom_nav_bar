@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_application/constants/padding_constants.dart';
 import 'package:flutter_test_application/constants/text_style_constants.dart';
+import 'package:flutter_test_application/providers/account_provider.dart';
 import 'package:flutter_test_application/providers/favorites_provider.dart';
 import 'package:flutter_test_application/utils/firebase_services.dart';
 import 'package:flutter_test_application/utils/helpers.dart';
@@ -37,6 +38,7 @@ class _CupertinoMainPageViewState extends State<CupertinoMainPageView> {
       context.read<HomeProvider>().getHomeData();
       context.read<CartProvider>().getcartItems();
       context.read<FavoritesProvider>().getFavoriteItems();
+      context.read<AccountProvider>().getAccountData();
       Helpers.getDeviceInfo();
     });
   }

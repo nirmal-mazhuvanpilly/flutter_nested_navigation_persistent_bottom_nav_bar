@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_application/providers/account_provider.dart';
 import 'package:flutter_test_application/providers/cart_provider.dart';
 import 'package:flutter_test_application/providers/favorites_provider.dart';
 import 'package:flutter_test_application/providers/home_provider.dart';
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 ConnectivityService().connectionStatusController?.stream,
             initialData: ConnectivityStatus.offline),
+        ChangeNotifierProvider<AccountProvider>(
+          create: (context) => AccountProvider(),
+        ),
       ],
       child: OverlaySupport.global(
         child: MaterialApp(
